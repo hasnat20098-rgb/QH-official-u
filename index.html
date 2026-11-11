@@ -3,129 +3,319 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LYRA REAL ANALYSIS - No Random</title>
+<title>LYRA V5 - Dual Engine (Binance + Yahoo)</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#000;color:#fff;padding:10px}
-.top{background:#111;border:1px solid #ff0000;border-radius:12px;padding:12px;text-align:center}
-.top b{color:#ff0000;font-size:22px}.top span{font-size:11px;color:#aaa;display:block}
+body{background:#000;color:#fff;padding:10px;padding-bottom:20px}
+.top{background:#111;border:1px solid #00ff00;border-radius:12px;padding:12px;text-align:center}
+.top b{color:#00ff00;font-size:18px}.top span{font-size:11px;color:#aaa;display:block}
+.engine-badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold;margin-top:5px}
+.eng-binance{background:#f3ba2f;color:#000}
+.eng-yahoo{background:#6001d2;color:#fff}
+.search{width:100%;padding:13px;background:#000;color:#fff;border:1px solid #00ff00;border-radius:12px;margin-top:10px;font-size:16px}
+.sug{background:#111;border:1px solid #00ff00;border-radius:12px;margin-top:6px;max-height:220px;overflow-y:auto;display:none}
+.sug div{padding:11px;border-bottom:1px solid #222;cursor:pointer}
 .live{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px;text-align:center}
 #price{font-size:32px;font-weight:900;color:#00ff00}
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
-.card{background:#111;border:1px solid #333;border-radius:10px;padding:10px;text-align:center}
-.card small{font-size:11px;color:#aaa;display:block}.card b{font-size:16px}
-.box{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin-top:10px}
-#msgs{height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.msg{padding:11px 12px;border-radius:14px;font-size:14px;line-height:1.6;background:#222;border:1px solid #333}
-.good{border:1px solid #00ff00!important;background:#003d1a!important}
-.bad{border:1px solid #ff0000!important;background:#3d0000!important}
-.wait{border:1px solid #ffaa00!important}
-.btn{width:100%;padding:14px;border:none;border-radius:25px;font-weight:900;font-size:15px;margin-top:10px}
-.start{background:#ff0000;color:#fff}.stop{background:#222;color:#fff;border:1px solid #555}
+.tlc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.tlcBox{background:#111;border:1px solid #333;border-radius:12px;padding:10px;text-align:center}
+.tlcBox small{font-size:11px;color:#aaa;display:block}.tlcBox b{font-size:13px;display:block;margin-top:4px}.tlcBox p{font-size:11px;margin-top:4px;line-height:1.4;color:#ccc}
+.ok{border:1px solid #00ff00!important}.notok{border:1px solid #ff0000!important}.wait{border:1px solid #ffaa00!important}
+.signalBox{margin-top:10px;border-radius:14px;padding:14px;text-align:center;font-weight:900;font-size:17px}
+.sig-good{background:#003d1a;border:1px solid #00ff00;color:#00ff00}
+.sig-bad{background:#3d0000;border:1px solid #ff0000;color:#ff4444}
+.sig-wait{background:#3d2a00;border:1px solid #ffaa00;color:#ffaa00}
+.detail{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px;font-size:13px;line-height:1.7}
+.chat{background:#111;border:1px solid #333;border-radius:14px;padding:10px;margin-top:10px}
+#msgs{height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:92%;padding:10px 12px;border-radius:14px;font-size:14px;line-height:1.6}
+.me{background:#00ff00;color:#000;align-self:flex-end;font-weight:600}.ai{background:#222;align-self:flex-start;border:1px solid #333}
+.row{display:flex;gap:6px;margin-top:8px}.row input{flex:1;padding:12px;border-radius:20px;background:#000;color:#fff;border:1px solid #444;outline:none}.row button{background:#00ff00;color:#000;border:none;padding:12px 16px;border-radius:20px;font-weight:900}
+.quick{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.quick button{background:#222;color:#fff;border:1px solid #444;padding:8px 10px;border-radius:20px;font-size:12px}
+.btn{width:100%;padding:13px;border:none;border-radius:25px;font-weight:900;font-size:15px;margin-top:10px}
+.start{background:#00ff00;color:#000}.stop{background:#222;color:#fff;border:1px solid #555}
+.health{font-size:11px;text-align:center;margin-top:6px;line-height:1.5}
 </style>
 </head>
 <body>
-<div class="top"><b>LYRA REAL ANALYSIS</b><span>NO RANDOM • ASOL CANDLE DEKHIYA HISAB • PASS LAGE NA</span></div>
+<div class="top">
+  <b>LYRA V5 DUAL ENGINE ✅</b>
+  <span>BINANCE FREE API (CRYPTO) + YAHOO (FOREX)</span>
+</div>
+<input class="search" id="searchInp" placeholder="🔍 খুঁজো... BTCUSDT, EURUSD=X, GOLD, ETH..." oninput="searchMarket()" />
+<div class="sug" id="sugBox"></div>
+<div class="health" id="engineStatus">⚡ Engine Status: Initializing...</div>
+
+<p style="font-size:12px;color:#aaa;text-align:center;margin-top:6px" id="currentTxt">
+  মার্কেট: <b style="color:#00ff00">EUR/USD - EURUSD=X</b>
+  <span id="engineBadge" class="engine-badge eng-yahoo">YAHOO ENGINE</span>
+</p>
 
 <div class="live">
-<p style="font-size:12px;color:#aaa">BTC / USDT • BINANCE ASOL CANDLE • LIVE</p>
-<div id="price">Loading...</div>
-<div id="candleInfo" style="font-size:13px;margin-top:4px">Candle anhtesi...</div>
+  <div id="price">Loading...</div>
+  <p id="candleInfo" style="font-size:11px;color:#aaa">1H+15m+5m...</p>
+  <p id="marketStatus" style="font-size:11px;color:#ffaa00;margin-top:4px"></p>
 </div>
 
-<div class="grid">
-<div class="card"><small>RSI (14)</small><b id="rsi">--</b></div>
-<div class="card"><small>EMA 20</small><b id="ema">--</b></div>
-<div class="card"><small>LAST 10 CANDLE</small><b id="candleCount">--</b></div>
+<div class="tlc">
+  <div class="tlcBox wait" id="boxT"><small>T = TREND (1H)</small><b id="tVal">--</b><p id="tTxt">...</p></div>
+  <div class="tlcBox wait" id="boxL"><small>L = LIQUIDITY (15m)</small><b id="lVal">--</b><p id="lTxt">...</p></div>
+  <div class="tlcBox wait" id="boxC"><small>C = CONFIRM (5m)</small><b id="cVal">--</b><p id="cTxt">...</p></div>
 </div>
 
-<button class="btn start" id="mainBtn" onclick="toggleApp()">▶️ REAL ANALYSIS START করো</button>
+<div id="signalBox" class="signalBox sig-wait">🟡 TLC অপেক্ষা...</div>
+<div class="detail" id="detailBox">V5 Ready!</div>
+<button class="btn start" id="mainBtn" onclick="toggleApp()">▶️ BOT START</button>
 
-<div class="box">
-<h3 style="color:#ff0000;font-size:15px">📋 LYRA-র ASOL ANALYSIS - RANDOM NA</h3>
-<div id="msgs"><div class="msg">ভাই, আমি LYRA! 🙏<br><br>আগেরটা Random আছিলো, মাফ করো ভাই! এইটা Random না!<br><br>এই অ্যাপটা <b>Binance থাকি আসল ক্যান্ডেল</b> আনবো - গত 50 টা ক্যান্ডেল! তারপর নিজে হিসাব করবো -<br>• <b>RSI</b> কত? 70-র উপরে গেলে Overbought, 30-র নিচে গেলে Oversold!<br>• <b>EMA</b> - প্রাইস EMA-র উপরে নি নিচে?<br>• <b>ক্যান্ডেল</b> - গত 10 টা ক্যান্ডেলে কয়টা সবুজ, কয়টা লাল?<br><br>তারপর ওই হিসাব দিয়া কইমু - Entry ভালো নি খারাপ!<br>তুমি খালি <b>START</b> টিপ দাও!</div></div>
+<div class="chat">
+  <div id="msgs">
+    <div class="msg ai">
+      ভাই, আমি LYRA V5! 🙏<br><br>
+      <b>Crypto-র লাগি Fast Binance Free API!</b><br>
+      <b>Forex-র লাগি Yahoo Finance Engine!</b><br><br>
+      যেকোনো পেয়ারের প্রাইস জানতে লেখো: <b>"BTCUSDT প্রাইস কত?"</b> বা <b>"EURUSD প্রাইস কত?"</b>
+    </div>
+  </div>
+  <div class="row">
+    <input id="inp" placeholder="জিগাও... প্রাইস কত?" />
+    <button onclick="sendMsg()">SEND</button>
+  </div>
+</div>
+
+<div class="quick">
+  <button onclick="ask('এই মার্কেটের প্রাইস অখন কত?')">প্রাইস কত?</button>
+  <button onclick="ask('BTCUSDT প্রাইস কত?')">BTCUSDT প্রাইস?</button>
+  <button onclick="ask('Signal কিতা?')">Signal কিতা?</button>
 </div>
 
 <script>
-let running=false, timerIv=null;
-function speak(t){try{let u=new SpeechSynthesisUtterance(t);u.lang='en-US';speechSynthesis.speak(u);}catch(e){}}
-function addMsg(html, cls=''){let d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;document.getElementById('msgs').appendChild(d);document.getElementById('msgs').scrollTop=99999;}
+let current = { n: "EUR/USD", s: "EURUSD=X", isCrypto: false };
+let running = false, timerIv = null, lastPrice = 0, lastT_str = "", lastL_str = "", lastC_str = "", lastDir = "", isFetching = false, lastSL = 0, lastTP = 0;
 
-// RSI HISAB - ASOL FORMULA
-function calcRSI(closes, period=14){
-  let gains=0, losses=0;
-  for(let i=1;i<=period;i++){
-    let diff=closes[closes.length-period-1+i]-closes[closes.length-period-2+i];
-    if(diff>=0) gains+=diff; else losses-=diff;
-  }
-  let avgGain=gains/period, avgLoss=losses/period;
-  if(avgLoss===0) return 100;
-  let rs=avgGain/avgLoss;
-  return 100 - (100/(1+rs));
+const PROXIES = [
+  "https://api.allorigins.win/raw?url=",
+  "https://corsproxy.io/?url=",
+  "https://api.codetabs.com/v1/proxy?quest="
+];
+let proxyIndex = 0;
+
+function isCryptoSymbol(sym) {
+  let s = sym.toUpperCase();
+  return s.includes("BTC") || s.includes("ETH") || s.includes("SOL") || s.includes("DOGE") || s.endsWith("USDT");
 }
-function calcEMA(closes, period=20){
-  let k=2/(period+1);
-  let ema=closes[0];
-  for(let i=1;i<closes.length;i++){ema=closes[i]*k+ema*(1-k);}
+
+function getDec(sym, price) {
+  if (sym.includes("JPY")) return 3;
+  if (price > 1000) return 2;
+  if (price < 2) return 5;
+  return 4;
+}
+
+function isMarketClosed() {
+  if (current.isCrypto) return ""; // Crypto 24/7
+  let d = new Date();
+  let day = d.getUTCDay();
+  if (day === 6 || day === 0) return "🛑 আজকে ফরেক্স মার্কেট বন্ধ! (ক্রিপ্টো চালু আছে)";
+  return "";
+}
+
+// ----------------- FETCH ENGINES -----------------
+
+// BINANCE DIRECT ENGINE (FREE FAST API)
+async function fetchBinanceKlines(symbol, interval, limit=200) {
+  let cleanSym = symbol.replace(/[^a-zA-Z0-0]/g, "").toUpperCase();
+  if(!cleanSym.endsWith("USDT") && !cleanSym.endsWith("BUSD")) cleanSym += "USDT";
+  let url = `https://api.binance.com/api/v3/klines?symbol=${cleanSym}&interval=${interval}&limit=${limit}`;
+  let res = await fetch(url);
+  if(!res.ok) throw new Error("Binance API error");
+  let data = await res.json();
+  return {
+    open: data.map(d => parseFloat(d[1])),
+    high: data.map(d => parseFloat(d[2])),
+    low: data.map(d => parseFloat(d[3])),
+    close: data.map(d => parseFloat(d[4]))
+  };
+}
+
+// YAHOO ENGINE WITH PROXY
+async function fetchYahoo(sym, range, interval) {
+  let url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?range=${range}&interval=${interval}`;
+  let p = PROXIES[proxyIndex % PROXIES.length];
+  proxyIndex++;
+  let res = await fetch(p + encodeURIComponent(url));
+  let txt = await res.text();
+  let data = JSON.parse(txt);
+  if(data.contents) data = JSON.parse(data.contents);
+  let q = data.chart.result[0].indicators.quote[0];
+  return {
+    open: q.open.filter(x => x != null),
+    high: q.high.filter(x => x != null),
+    low: q.low.filter(x => x != null),
+    close: q.close.filter(x => x != null)
+  };
+}
+
+// CALCULATIONS
+function calcEMA(v, p) {
+  if (v.length < p) return v[v.length - 1];
+  let sma = v.slice(0, p).reduce((a, b) => a + b, 0) / p;
+  let k = 2 / (p + 1), ema = sma;
+  for (let i = p; i < v.length; i++) ema = v[i] * k + ema * (1 - k);
   return ema;
 }
 
-async function realAnalysis(){
-  try{
-    // BINANCE THAKI ASOL 50 TA CANDLE ANBO - 1 MIN ER
-    let r=await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50');
-    let data=await r.json();
-    let closes=data.map(c=>parseFloat(c[4]));
-    let opens=data.map(c=>parseFloat(c[1]));
-    let lastPrice=closes[closes.length-1];
-    let rsi=calcRSI(closes);
-    let ema=calcEMA(closes);
-    let green=0, red=0;
-    for(let i=closes.length-10;i<closes.length;i++){if(closes[i]>opens[i])green++;else red++;}
-    let change=((closes[closes.length-1]-closes[closes.length-11])/closes[closes.length-11]*100);
+function calcATR(h, l, c, p = 14) {
+  let trs = [];
+  for (let i = 1; i < h.length; i++) trs.push(Math.max(h[i] - l[i], Math.abs(h[i] - c[i - 1]), Math.abs(l[i] - c[i - 1])));
+  return trs.slice(-p).reduce((a, b) => a + b, 0) / p;
+}
 
-    document.getElementById('price').innerText='$'+lastPrice.toLocaleString('en-US',{minimumFractionDigits:2});
-    document.getElementById('rsi').innerText=rsi.toFixed(1);
-    document.getElementById('rsi').style.color=rsi>70?'#ff4444':rsi<30?'#00ff00':'#fff';
-    document.getElementById('ema').innerText='$'+ema.toFixed(0);
-    document.getElementById('candleCount').innerText=green+' 🟢 / '+red+' 🔴';
-    document.getElementById('candleInfo').innerText='Goto 10 candle: '+green+' ta Sobuj, '+red+' ta Lal • Change: '+change.toFixed(3)+'%';
-
-    // ASOL LOGIC - RANDOM NA
-    let msg='', cls='', sp='';
-    if(rsi<30 && lastPrice>ema && green>red){
-      msg='<b>⏰ ASOL ANALYSIS - '+new Date().toLocaleTimeString()+'</b><br>• Price: $'+lastPrice.toFixed(2)+'<br>• RSI: '+rsi.toFixed(1)+' (30-র নিচে, Oversold, উপরে যাওয়ার চান্স!)<br>• Price EMA-র উপরে আছে<br>• Goto 10 candle: '+green+' Sobuj, '+red+' Lal<br><br><b>DECISION:</b><br>✅ <b>EKHON ENTRY NILE VALO!</b> RSI কম, মার্কেট উপরে যাইতে চাইতেছে!';
-      cls='good'; sp='Bhai, ekhon entry nile bhalo, RSI kom, market upore jaibo.';
-    } else if(rsi>70 && lastPrice<ema && red>green){
-      msg='<b>⏰ ASOL ANALYSIS - '+new Date().toLocaleTimeString()+'</b><br>• Price: $'+lastPrice.toFixed(2)+'<br>• RSI: '+rsi.toFixed(1)+' (70-র উপরে, Overbought, নিচে নামার চান্স!)<br>• Price EMA-র নিচে আছে<br>• Goto 10 candle: '+green+' Sobuj, '+red+' Lal<br><br><b>DECISION:</b><br>⛔ <b>EKHON ENTRY VALO NA, BONDHO THAKO!</b> RSI বেশি, মার্কেট নিচে নামতে পারে!';
-      cls='bad'; sp='Bhai, ekhon entry bhalo na, bondho thako.';
+// MAIN ANALYSIS
+async function doTLC() {
+  if (isFetching) return;
+  isFetching = true;
+  try {
+    current.isCrypto = isCryptoSymbol(current.s);
+    let badge = document.getElementById('engineBadge');
+    if(current.isCrypto){
+      badge.className = "engine-badge eng-binance";
+      badge.innerText = "⚡ BINANCE ENGINE (FREE)";
     } else {
-      msg='<b>⏰ ASOL ANALYSIS - '+new Date().toLocaleTimeString()+'</b><br>• Price: $'+lastPrice.toFixed(2)+'<br>• RSI: '+rsi.toFixed(1)+' (মাঝখানে, পরিষ্কার না)<br>• Price EMA: $'+ema.toFixed(2)+'<br>• Goto 10 candle: '+green+' Sobuj, '+red+' Lal<br><br><b>DECISION:</b><br>🟡 <b>EKHON OPEKKHA KORO!</b> Signal পরিষ্কার না, একটু খারাও!';
-      cls='wait'; sp='Bhai, ekhon opekkha koro.';
+      badge.className = "engine-badge eng-yahoo";
+      badge.innerText = "🌐 YAHOO ENGINE";
     }
-    addMsg(msg, cls);
-    speak(sp);
-  }catch(e){
-    addMsg('ভাই, নেটে সমস্যা হইছে, আবার চেষ্টা করতেছি... Binance থাকি ক্যান্ডেল আনতে পারতেছি না!');
+
+    let closed = isMarketClosed();
+    document.getElementById('marketStatus').innerText = closed;
+
+    let d1h, d15m, d5m;
+    if (current.isCrypto) {
+      d1h = await fetchBinanceKlines(current.s, "1h", 200);
+      d15m = await fetchBinanceKlines(current.s, "15m", 100);
+      d5m = await fetchBinanceKlines(current.s, "5m", 50);
+    } else {
+      d1h = await fetchYahoo(current.s, "1mo", "1h");
+      d15m = await fetchYahoo(current.s, "2d", "15m");
+      d5m = await fetchYahoo(current.s, "1d", "5m");
+    }
+
+    let c1h = d1h.close, lastP = c1h[c1h.length - 1];
+    lastPrice = lastP;
+    let ema50 = calcEMA(c1h, 50), ema200 = calcEMA(c1h, 200);
+    let trend = (ema50 > ema200 && lastP > ema50) ? "UPTREND" : (ema50 < ema200 && lastP < ema50) ? "DOWNTREND" : "SIDEWAYS";
+    lastT_str = trend;
+
+    let lows15 = d15m.low, highs15 = d15m.high, closes15 = d15m.close;
+    let prevLow = Math.min(...lows15.slice(-22, -2)), prevHigh = Math.max(...highs15.slice(-22, -2));
+    let lastLow = lows15[lows15.length - 1], lastHigh = highs15[highs15.length - 1], lastClose15 = closes15[closes15.length - 1];
+    let atr15 = calcATR(highs15, lows15, closes15, 14);
+    let sweepLow = lastLow < prevLow && lastClose15 > prevLow;
+    let sweepHigh = lastHigh > prevHigh && lastClose15 < prevHigh;
+    let liq = sweepLow ? "SWEEP LOW ✅" : sweepHigh ? "SWEEP HIGH ✅" : "NO SWEEP ❌";
+    lastL_str = liq;
+
+    let o5 = d5m.open, c5 = d5m.close, h5 = d5m.high, l5 = d5m.low;
+    let atr5 = calcATR(h5, l5, c5, 14);
+    let lastO = o5[o5.length - 1], lastC5 = c5[c5.length - 1], prevO = o5[o5.length - 2], prevC = c5[c5.length - 2];
+    let bullEng = lastC5 > lastO && prevC < prevO && lastC5 > prevO;
+    let bearEng = lastC5 < lastO && prevC > prevO && lastC5 < prevO;
+    let conf = bullEng ? "BULLISH ENGULFING ✅" : bearEng ? "BEARISH ENGULFING ✅" : "NO ENGULFING ❌";
+    lastC_str = conf;
+
+    let dec = getDec(current.s, lastP);
+    document.getElementById('price').innerText = lastP.toFixed(dec);
+
+    document.getElementById('tVal').innerText = trend;
+    document.getElementById('tTxt').innerText = 'EMA50: ' + ema50.toFixed(dec);
+    document.getElementById('boxT').className = 'tlcBox ' + (trend != "SIDEWAYS" ? 'ok' : 'wait');
+
+    document.getElementById('lVal').innerText = liq;
+    document.getElementById('lTxt').innerText = sweepLow ? 'Sweep Low!' : sweepHigh ? 'Sweep High!' : 'No Sweep';
+    document.getElementById('boxL').className = 'tlcBox ' + (liq.includes("✅") ? 'ok' : 'notok');
+
+    document.getElementById('cVal').innerText = conf;
+    document.getElementById('cTxt').innerText = bullEng ? 'Bullish Engulfing' : bearEng ? 'Bearish Engulfing' : 'No Engulfing';
+    document.getElementById('boxC').className = 'tlcBox ' + (conf.includes("✅") ? 'ok' : 'notok');
+
+    let box = document.getElementById('signalBox'), detail = document.getElementById('detailBox'), sl, tp;
+    if (closed) {
+      lastDir = "WAIT"; box.innerText = "🛑 বাজার বন্ধ!"; box.className = "signalBox sig-wait";
+    } else if (trend == "UPTREND" && sweepLow && bullEng) {
+      lastDir = "BUY"; sl = lastP - atr5 * 1.5; tp = lastP + atr5 * 2; lastSL = sl; lastTP = tp;
+      box.innerText = `✅ BUY Entry:${lastP.toFixed(dec)}`; box.className = "signalBox sig-good";
+      detail.innerHTML = `✅ <b>BUY SIGNAL!</b><br>Entry: ${lastP.toFixed(dec)} • SL: ${sl.toFixed(dec)} • TP: ${tp.toFixed(dec)}`;
+    } else if (trend == "DOWNTREND" && sweepHigh && bearEng) {
+      lastDir = "SELL"; sl = lastP + atr5 * 1.5; tp = lastP - atr5 * 2; lastSL = sl; lastTP = tp;
+      box.innerText = `⛔ SELL Entry:${lastP.toFixed(dec)}`; box.className = "signalBox sig-bad";
+      detail.innerHTML = `⛔ <b>SELL SIGNAL!</b><br>Entry: ${lastP.toFixed(dec)} • SL: ${sl.toFixed(dec)} • TP: ${tp.toFixed(dec)}`;
+    } else {
+      lastDir = "WAIT"; box.innerText = "🟡 WAIT - TLC মিলে নাই"; box.className = "signalBox sig-wait";
+      detail.innerHTML = `🟡 <b>WAIT!</b><br>T: ${trend} • L: ${liq} • C: ${conf}`;
+    }
+    isFetching = false;
+  } catch (e) {
+    isFetching = false;
+    document.getElementById('engineStatus').innerText = "⚠️ Fetch Error! Retrying...";
   }
 }
 
-function toggleApp(){
-  if(!running){
-    running=true;
-    document.getElementById('mainBtn').innerText='⏹️ BANDHO KORO';
-    document.getElementById('mainBtn').className='btn stop';
-    addMsg('▶️ <b>REAL ANALYSIS START!</b><br>ভাই, অখন আমি আসল ক্যান্ডেল দেখিয়া হিসাব করমু! Random না! তুমি দেখো, RSI / EMA / ক্যান্ডেল সব দেখাইমু!');
-    speak('Real analysis start bhai, random na.');
-    realAnalysis();
-    // ASOL 5 MIN = 300000, DEMO TE 20 SEC DILAM JATE TUMI TATARI DEKHO
-    timerIv=setInterval(realAnalysis, 20000);
+function searchMarket() {
+  let q = document.getElementById('searchInp').value.trim();
+  if(!q) return;
+  current.s = q.toUpperCase();
+  current.n = q.toUpperCase();
+  document.getElementById('currentTxt').innerHTML = 'মার্কেট: <b style="color:#00ff00">' + current.s + '</b>';
+  doTLC();
+}
+
+function toggleApp() {
+  if (!running) {
+    running = true;
+    document.getElementById('mainBtn').innerText = '⏹️ BANDHO';
+    document.getElementById('mainBtn').className = 'btn stop';
+    doTLC();
+    timerIv = setInterval(doTLC, 30000);
   } else {
-    running=false; clearInterval(timerIv);
-    document.getElementById('mainBtn').innerText='▶️ REAL ANALYSIS START করো';
-    document.getElementById('mainBtn').className='btn start';
+    running = false;
+    clearInterval(timerIv);
+    document.getElementById('mainBtn').innerText = '▶️ BOT START';
+    document.getElementById('mainBtn').className = 'btn start';
   }
 }
+
+function addMsg(t, w) {
+  let d = document.createElement('div');
+  d.className = 'msg ' + (w === 'me' ? 'me' : 'ai');
+  d.innerHTML = t;
+  document.getElementById('msgs').appendChild(d);
+  document.getElementById('msgs').scrollTop = 99999;
+}
+
+function ask(q) { document.getElementById('inp').value = q; sendMsg(); }
+
+async function sendMsg() {
+  let inp = document.getElementById('inp');
+  let q = inp.value.trim();
+  if (!q) return;
+  addMsg(q, 'me');
+  inp.value = '';
+
+  let l = q.toLowerCase();
+  if (l.includes('price') || l.includes('প্রাইস') || l.includes('কত')) {
+    await doTLC();
+    let dec = getDec(current.s, lastPrice);
+    let src = current.isCrypto ? "Binance API (Direct Live)" : "Yahoo Finance Engine";
+    let ans = `ভাই, <b>${current.s}</b>-এর বর্তমান লাইভ প্রাইস: <br><span style="color:#00ff00;font-size:20px;font-weight:900">${lastPrice.toFixed(dec)}</span><br><small>Data Source: ${src}</small><br><br>TradingView-এর সাথে মিলাইয়া দেখতে পারো!`;
+    addMsg(ans, 'ai');
+  } else if (l.includes('signal') || l.includes('সিগন্যাল')) {
+    let ans = `বর্তমান সিগন্যাল: <b>${lastDir}</b><br>TLC Status: T:${lastT_str} | L:${lastL_str} | C:${lastC_str}`;
+    addMsg(ans, 'ai');
+  } else {
+    addMsg(`আপনি জানতে চেয়েছেন: "${q}"। বর্তমান প্রাইস: <b>${lastPrice}</b>, সিগন্যাল: <b>${lastDir}</b>`, 'ai');
+  }
+}
+
+doTLC();
 </script>
 </body>
-</html>
+  </html>
