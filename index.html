@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master QH</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#000;color:#fff;padding:12px;padding-bottom:80px}
+.top{display:flex;justify-content:space-between;align-items:center;background:#111;border:1px solid #ff0000;border-radius:12px;padding:12px}
+.logo{font-size:24px;font-weight:900;color:#ff0000;letter-spacing:2px}
+.logo span{color:#fff;font-size:12px;display:block;letter-spacing:1px}
+.live{background:#00ff00;color:#000;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:900}
+.price-box{background:#111;border-radius:14px;padding:16px;margin-top:12px;text-align:center;border:1px solid #333}
+.price-box small{color:#aaa}
+#price{font-size:42px;font-weight:900;color:#fff;margin:5px 0}
+#change{font-size:16px;font-weight:700}
+.up{color:#00ff00}.down{color:#ff0000}
+.signal{margin-top:12px;background:linear-gradient(135deg,#ff0000,#ff4444);border-radius:14px;padding:16px;text-align:center}
+.signal h2{font-size:22px}
+.signal p{font-size:13px;margin:6px 0;opacity:.9}
+.signal button{background:#fff;color:#000;border:none;padding:12px 20px;border-radius:25px;font-weight:900;font-size:16px;margin-top:8px;width:100%}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.card{background:#111;border:1px solid #333;border-radius:12px;padding:12px;text-align:center}
+.card small{color:#aaa;font-size:12px}
+.card b{font-size:18px;display:block;margin-top:4px}
+.btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.btns button{padding:12px;border-radius:10px;border:none;font-weight:900;font-size:14px}
+.buy{background:#00c853;color:#fff}.sell{background:#ff0000;color:#fff}.refresh{background:#222;color:#fff;border:1px solid #444 !important}
+.chart{margin-top:12px;background:#111;border-radius:12px;overflow:hidden;border:1px solid #333}
+.chart iframe{width:100%;height:280px;border:none}
+.news{margin-top:12px;background:#111;border-radius:12px;padding:12px;border:1px solid #333}
+.news h3{color:#ff0000;margin-bottom:8px;font-size:16px}
+.news p{font-size:13px;line-height:1.6;color:#ddd;border-bottom:1px solid #222;padding:8px 0}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;display:flex;justify-content:space-around;padding:12px;border-top:1px solid #ff0000}
+.bottom span{font-size:12px;color:#aaa;text-align:center}
+.bottom b{color:#fff;display:block;font-size:16px}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="logo">LYRA<span>TRADING AI • BANGLADESH</span></div>
+  <div class="live">● LIVE</div>
+</div>
+
+<div class="price-box">
+  <small>BTC / USDT • BINANCE</small>
+  <div id="price">$ 97,245.00</div>
+  <div id="change" class="up">▲ +2.45% Today</div>
+  <small id="time">Updated: Just Now</small>
+</div>
+
+<div class="signal">
+  <h2 id="signalText">🟢 STRONG BUY SIGNAL</h2>
+  <p>Entry: $97,200 | TP: $99,500 | SL: $95,800</p>
+  <p>Confidence: 87% • Trend: Bullish</p>
+  <button onclick="newSignal()">🔄 NEW SIGNAL GENERATE</button>
+</div>
+
+<div class="grid">
+  <div class="card"><small>24h High</small><b id="high">$98,900</b></div>
+  <div class="card"><small>24h Low</small><b id="low">$95,100</b></div>
+  <div class="card"><small>RSI (14)</small><b id="rsi">68.4</b></div>
+  <div class="card"><small>Win Rate</small><b style="color:#00ff00">78.5%</b></div>
+</div>
+
+<div class="btns">
+  <button class="buy" onclick="alert('BUY Order Placed! LYRA Signal Followed')">BUY</button>
+  <button class="sell" onclick="alert('SELL Order Placed!')">SELL</button>
+  <button class="refresh" onclick="refreshPrice()">REFRESH</button>
+</div>
+
+<div class="chart">
+  <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_123&symbol=BINANCE:BTCUSDT&interval=15&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&theme=dark&style=1&timezone=Asia/Dhaka&studies=[]&hideideas=1&withdateranges=1&hidevolume=1"></iframe>
+</div>
+
+<div class="news">
+  <h3>📢 LYRA NEWS</h3>
+  <p>• Bitcoin breaking resistance, next target $99,500 - LYRA AI</p>
+  <p>• Bangladesh time: Best trading time 2PM - 10PM</p>
+  <p>• LYRA says: Don't trade without Stop Loss!</p>
+</div>
+
+<div class="bottom">
+  <span><b>🏠</b>Home</span>
+  <span><b>📊</b>Signal</span>
+  <span><b>📈</b>Chart</span>
+  <span><b>⚙️</b>Setting</span>
+</div>
+
+<script>
+let price = 97245;
+function refreshPrice(){
+  let change = (Math.random()-0.45)*500;
+  price = price + change;
+  document.getElementById('price').innerText = '$ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  let per = (Math.random()*3).toFixed(2);
+  let el = document.getElementById('change');
+  if(change>=0){ el.innerText='▲ +'+per+'% Today'; el.className='up'; }
+  else{ el.innerText='▼ -'+per+'% Today'; el.className='down'; }
+  document.getElementById('time').innerText='Updated: '+new Date().toLocaleTimeString();
+  document.getElementById('rsi').innerText=(55+Math.random()*25).toFixed(1);
+  document.getElementById('high').innerText='$'+(price+500).toFixed(0);
+  document.getElementById('low').innerText='$'+(price-1200).toFixed(0);
+}
+function newSignal(){
+  let signals=['🟢 STRONG BUY SIGNAL','🔴 STRONG SELL SIGNAL','🟡 WAIT - NO TRADE'];
+  let s = signals[Math.floor(Math.random()*signals.length)];
+  document.getElementById('signalText').innerText=s;
+  alert('New LYRA Signal: '+s);
+}
+setInterval(refreshPrice, 5000);
+</script>
+</body>
+</html>
