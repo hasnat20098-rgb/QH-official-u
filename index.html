@@ -3,119 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LYRA LIVE - Screen Share</title>
+<title>LYRA - App Nije Chart Dekhbo</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#000;color:#fff;padding:10px;padding-bottom:20px}
-.top{background:#111;border:1px solid #ff0000;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center}
-.top b{color:#ff0000;font-size:22px}.top span{font-size:11px;color:#aaa;display:block}
-.live{background:#ff0000;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:900;animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.5}}
-.screen{margin-top:10px;background:#111;border:1px solid #333;border-radius:14px;overflow:hidden;position:relative}
-.screen video{width:100%;height:280px;background:#000;object-fit:contain}
-.screen .no{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px}
-.screen .no b{font-size:18px}.screen .no p{font-size:12px;color:#aaa;line-height:1.6}
-.shareBtn{background:#ff0000;color:#fff;border:none;padding:13px 20px;border-radius:25px;font-weight:900;font-size:15px}
-.stopBtn{background:#222;color:#fff;border:1px solid #555;padding:10px 16px;border-radius:20px;margin-top:8px}
-.chat{background:#111;border-radius:14px;padding:10px;margin-top:10px;border:1px solid #333}
-#msgs{height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-.msg{max-width:88%;padding:10px 12px;border-radius:14px;font-size:14px;line-height:1.6}
-.me{background:#ff0000;align-self:flex-end}.ai{background:#222;align-self:flex-start;border:1px solid #333}
-.row{display:flex;gap:6px;margin-top:8px}.row input{flex:1;padding:12px;border-radius:20px;background:#000;color:#fff;border:1px solid #444;outline:none}.row button{background:#ff0000;color:#fff;border:none;padding:12px 16px;border-radius:20px;font-weight:900}
-.quick{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.quick button{background:#222;color:#fff;border:1px solid #444;padding:8px 10px;border-radius:20px;font-size:12px}
-.status{text-align:center;font-size:12px;color:#00ff00;margin-top:6px}
+body{background:#000;color:#fff;padding:10px}
+.top{background:#111;border:1px solid #ff0000;border-radius:12px;padding:12px;text-align:center}
+.top b{color:#ff0000;font-size:22px}.top span{font-size:11px;color:#aaa;display:block;margin-top:2px}
+.status{background:#111;border:1px solid #00ff00;border-radius:12px;padding:12px;margin-top:10px;text-align:center}
+.status b{color:#00ff00;font-size:18px}.status p{font-size:12px;color:#aaa;margin-top:4px}
+#livePrice{font-size:32px;font-weight:900;color:#00ff00}
+#trend{font-size:14px;font-weight:900;margin-top:4px}
+.box{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin-top:10px}
+.box h3{color:#ff0000;font-size:15px}
+#msgs{height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.msg{padding:11px 12px;border-radius:14px;font-size:14px;line-height:1.6}
+.ai{background:#222;border:1px solid #333}
+.good{border:1px solid #00ff00!important;background:#003d1a!important}
+.bad{border:1px solid #ff0000!important;background:#3d0000!important}
+.wait{border:1px solid #ffaa00!important}
+.btn{width:100%;padding:14px;border:none;border-radius:25px;font-weight:900;font-size:15px;margin-top:10px}
+.start{background:#ff0000;color:#fff}.stop{background:#222;color:#fff;border:1px solid #555}
 </style>
 </head>
 <body>
-<div class="top"><div><b>LYRA LIVE</b><span>SCREEN SHARE + LIVE CHAT • TRADING MANUSH</span></div><div class="live">● LIVE</div></div>
+<div class="top"><b>LYRA AI - APP NIJE DEKHBO</b><span>TUMI DEKHBA NA • APP TA NIJE CHART DEKHBO • NIJE ANALYSIS KORBO</span></div>
 
-<div class="screen">
-<video id="screenVideo" autoplay playsinline muted></video>
-<div class="no" id="noScreen">
-<b>👀 LYRA এখন তোমার স্ক্রিন দেখতেছে না</b>
-<p>নিচের বাটন টিপ দিয়া স্ক্রিন শেয়ার করো!<br>তারপর LYRA-রে জিগাও - "এই চার্টে কিতা হইবো?"<br>LYRA তোমার স্ক্রিন দেখিয়া কইবো!</p>
-<button class="shareBtn" onclick="shareScreen()">🖥️ SCREEN SHARE START করো</button>
-<p style="font-size:11px;color:#888">Chrome-এ এইটা ১০০% কাজ করবো!</p>
-</div>
-<div style="position:absolute;top:10px;right:10px;display:none" id="stopWrap">
-<button class="stopBtn" onclick="stopShare()">⏹️ Share বন্ধ করো</button>
-</div>
-</div>
-<div class="status" id="status">Status: স্ক্রিন শেয়ার বন্ধ আছে</div>
-
-<div class="chat">
-<div id="msgs"><div class="msg ai">আসসালামু আলাইকুম ভাই! আমি LYRA LIVE! 🙏<br><br>তুমি উপরে <b>SCREEN SHARE</b> টিপ দিয়া তোমার TradeX / TradingView-র স্ক্রিনটা আমারে দেখাও!<br><br>আমি দেখিয়া কইমু -<br>• এই চার্টে কিতা হইতেছে?<br>• এখন কিনতাম নি বেচতাম নি?<br>• SL / TP কই দিতাম?<br><br>তুমি খালি স্ক্রিন শেয়ার করো, বাকিটা আমি দেখতেছি!</div></div>
-<div class="row"><input id="inp" placeholder="LYRA-রে জিগাও... যেমন: এই চার্টটা দেখো, কিতা হইবো?" /><button onclick="sendMsg()">SEND</button></div>
+<div class="status">
+<p>APP TA EKHON CHART DEKH TESE • LIVE PRICE</p>
+<div id="livePrice">Loading...</div>
+<div id="trend">App chart dekhtese...</div>
+<p id="watchTime">App cholse: 00:00</p>
 </div>
 
-<div class="quick">
-<button onclick="ask('এই চার্টটা দেখো, কিতা হইবো?')">📊 এই চার্টটা দেখো</button>
-<button onclick="ask('এখন কিনতাম নি?')">কিনতাম নি?</button>
-<button onclick="ask('এই ক্যান্ডেলটা কিতা কইতেছে?')">ক্যান্ডেলটা কিতা কয়?</button>
-<button onclick="ask('SL কই দিতাম?')">SL কই?</button>
+<button class="btn start" id="mainBtn" onclick="toggleApp()">▶️ APP START করো - App Nije Chart Dekhbo</button>
+
+<div class="box">
+<h3>📋 APP-ER NIJE ANALYSIS - TUMI KHALI PORBA</h3>
+<div id="msgs"><div class="msg ai">ভাই, আমি LYRA! 🙏<br><br><b>তুমি চার্ট দেখবা না!</b> আমি দেখমু!<br><br>তুমি খালি উপরে <b>APP START</b> টিপ দাও!<br>তারপর আমি নিজে নিজে চার্ট দেখমু, নিজে নিজে বিশ্লেষণ করমু, 5 মিনিট পর পর তোমারে কইমু -<br>• গত 5 মিনিটে কিতা হইছে?<br>• এখন Entry নিলে ভালো নি?<br>• নাহলে বন্ধ থাকবা নি?<br><br>তুমি খালি বইয়া থাকো, আমি দেখতেছি!</div></div>
 </div>
 
 <script>
-let isSharing=false;
+let running=false, prices=[], startSec=0, timerIv=null, reportIv=null, reportCount=0, firstPrice=0;
 function speak(t){try{let u=new SpeechSynthesisUtterance(t);u.lang='en-US';speechSynthesis.speak(u);}catch(e){}}
-async function shareScreen(){
+function addMsg(html, cls='ai'){let d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;document.getElementById('msgs').appendChild(d);document.getElementById('msgs').scrollTop=99999;}
+
+async function getPrice(){
   try{
-    let stream=await navigator.mediaDevices.getDisplayMedia({video:true,audio:false});
-    let v=document.getElementById('screenVideo');
-    v.srcObject=stream;
-    document.getElementById('noScreen').style.display='none';
-    document.getElementById('stopWrap').style.display='block';
-    isSharing=true;
-    document.getElementById('status').innerText='✅ Status: LYRA এখন তোমার স্ক্রিন দেখতেছে! LIVE!';
-    document.getElementById('status').style.color='#00ff00';
-    addMsg('✅ ভাই, দেখতেছি! তোমার স্ক্রিন আমার কাছে আইছে! অখন চার্টটা দেখা যাইতেছে! তুমি আমারে জিগাও - "এই চার্টে কিতা হইবো?"','ai');
-    speak('Bhai, ami tomar screen dekhtasi. Chart ta dekha jaitase. Amare jigao ki hoibo.');
-    stream.getVideoTracks()[0].onended=()=>{stopShare();};
-  }catch(e){
-    alert('ভাই, Screen Share Cancel করি দিছো! আবার চেষ্টা করো! Chrome-এ Entire Screen সিলেক্ট করো!');
+    let r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+    let d=await r.json();
+    let p=parseFloat(d.price);
+    if(firstPrice===0) firstPrice=p;
+    prices.push(p);
+    if(prices.length>100) prices.shift();
+    let el=document.getElementById('livePrice');
+    el.innerText='$'+p.toLocaleString('en-US',{minimumFractionDigits:2});
+    // App nije bujhtese - upore ni niche?
+    if(prices.length>2){
+      let old=prices[prices.length-10]||prices[0];
+      let diff=((p-old)/old*100).toFixed(3);
+      let trendEl=document.getElementById('trend');
+      if(p>old){trendEl.innerText='📈 APP DEKHSE: Price UP jaitase (+'+diff+'%)';trendEl.style.color='#00ff00';el.style.color='#00ff00';}
+      else if(p<old){trendEl.innerText='📉 APP DEKHSE: Price DOWN jaitase ('+diff+'%)';trendEl.style.color='#ff4444';el.style.color='#ff4444';}
+      else{trendEl.innerText='🟡 APP DEKHSE: Price ek jaygay atkai ase';trendEl.style.color='#ffaa00';}
+    }
+  }catch(e){document.getElementById('livePrice').innerText='App Chart Dekhtese...';}
+}
+getPrice(); setInterval(getPrice, 2000);
+
+function toggleApp(){
+  if(!running){
+    running=true; startSec=0; reportCount=0; prices=[];
+    document.getElementById('mainBtn').innerText='⏹️ APP BANDHO KORO';
+    document.getElementById('mainBtn').className='btn stop';
+    addMsg('▶️ <b>APP START HOISE!</b><br>ভাই, অখন আমি নিজে চার্ট দেখা শুরু করলাম! তুমি আর চার্ট দেখবা না! আমি দেখমু! 5 মিনিট পর পর আমি নিজে বিশ্লেষণ করিয়া তোমারে কইমু!');
+    speak('App start bhai, ami nije chart dekhbo, tumi dekhba na.');
+    timerIv=setInterval(()=>{startSec++;let m=String(Math.floor(startSec/60)).padStart(2,'0');let s=String(startSec%60).padStart(2,'0');document.getElementById('watchTime').innerText='App cholse: '+m+':'+s;},1000);
+    // DEMO TE 20 SEC POR POR - ASOL 5 MIN ER JONNO 300000 KORO
+    reportIv=setInterval(appAnalysis, 20000);
+  } else {
+    running=false; clearInterval(timerIv); clearInterval(reportIv);
+    document.getElementById('mainBtn').innerText='▶️ APP START করো - App Nije Chart Dekhbo';
+    document.getElementById('mainBtn').className='btn start';
+    addMsg('⏹️ App bondho korla bhai!');
   }
 }
-function stopShare(){
-  let v=document.getElementById('screenVideo');
-  if(v.srcObject){v.srcObject.getTracks().forEach(t=>t.stop());v.srcObject=null;}
-  document.getElementById('noScreen').style.display='flex';
-  document.getElementById('stopWrap').style.display='none';
-  isSharing=false;
-  document.getElementById('status').innerText='Status: স্ক্রিন শেয়ার বন্ধ আছে';
-  document.getElementById('status').style.color='#888';
+
+function appAnalysis(){
+  reportCount++;
+  if(prices.length<5){addMsg('App ekhono data joma kortese... ektu kharaw bhai!');return;}
+  let first=prices[0], last=prices[prices.length-1];
+  let change=((last-first)/first*100);
+  let upCount=0, downCount=0;
+  for(let i=1;i<prices.length;i++){if(prices[i]>prices[i-1])upCount++;else downCount++;}
+  let msg='', cls='ai', sp='';
+  // APP NIJE DECISION NITASE - LOGIC
+  if(change>0.05 && upCount>downCount){
+    msg='<b>⏰ APP-ER REPORT '+(reportCount*5)+' MIN:</b><br>• App dekhse: Goto 5 min e price <b>UP</b> gese ('+change.toFixed(3)+'%)<br>• Sobuj candle beshi, upore jaitase<br><br><b>APP-ER DECISION:</b><br>✅ <b>EKHON ENTRY NILE VALO!</b> App nije analysis koira koitase - ekhon kinle valo hoibo! Choto entry naw, SL dio!';
+    cls='ai good'; sp='Bhai, ekhon entry nile bhalo, market upore uthase.';
+  } else if(change<-0.05 && downCount>upCount){
+    msg='<b>⏰ APP-ER REPORT '+(reportCount*5)+' MIN:</b><br>• App dekhse: Goto 5 min e price <b>DOWN</b> gese ('+change.toFixed(3)+'%)<br>• Lal candle beshi, niche namtase<br><br><b>APP-ER DECISION:</b><br>⛔ <b>EKHON ENTRY VALO NA, BONDHO THAKO!</b> App nije koitase - ekhon kinle loss hoibo! Pore arekbar chesta koro, ami dekhtasi!';
+    cls='ai bad'; sp='Bhai, ekhon entry bhalo na, bondho thako.';
+  } else {
+    msg='<b>⏰ APP-ER REPORT '+(reportCount*5)+' MIN:</b><br>• App dekhse: Goto 5 min e price ek jaygay atkai ase ('+change.toFixed(3)+'%)<br>• Market sideways, keu bujhtese na<br><br><b>APP-ER DECISION:</b><br>🟡 <b>EKHON OPEKKHA KORO!</b> App nije koitase - ekhon entry nio na, ektu kharaw, valo somoy aile ami koimu!';
+    cls='ai wait'; sp='Bhai, ekhon opekkha koro.';
+  }
+  addMsg(msg, cls);
+  speak(sp);
+  prices=[]; // Notun 5 min er jonno abar joma korbo
 }
-function addMsg(t,w){let d=document.createElement('div');d.className='msg '+(w==='me'?'me':'ai');d.innerHTML=t;document.getElementById('msgs').appendChild(d);document.getElementById('msgs').scrollTop=99999;}
-function ask(q){document.getElementById('inp').value=q;sendMsg();}
-function sendMsg(){
-  let inp=document.getElementById('inp');let q=inp.value.trim();if(!q)return;
-  addMsg(q,'me');inp.value='';
-  setTimeout(()=>{
-    let l=q.toLowerCase();let ans='';
-    if(!isSharing){
-      ans='ভাই, আমি তো এখনো তোমার স্ক্রিন দেখতেছি না! 😅 উপরে <b>SCREEN SHARE</b> বাটনটা টিপ দিয়া স্ক্রিনটা শেয়ার করো, তারপর আমি দেখিয়া কইমু! স্ক্রিন না দেখলে আমি আন্দাজে কইমু, ওইটা তুমি চাও না!';
-      speak('Bhai, screen share koro, ami screen dekhtasi na.');
-    }
-    else if(l.includes('chart')||l.includes('চার্ট')||l.includes('dekho')||l.includes('দেখো')||l.includes('kita')||l.includes('কিতা')){
-      ans='ভাই, দেখতেছি! তোমার স্ক্রিনে যেই চার্টটা খুলা আছে, ওইটা আমি দেখতেছি! 👀<br><br>অখন ক্যান্ডেলগুলা দেখো -<br>• যদি লাল ক্যান্ডেল বেশি হয়, মানে মার্কেট নিচে নামতেছে, <b>অপেক্ষা করো, কিনিও না!</b><br>• যদি সবুজ ক্যান্ডেল উপরে উঠে, মানে মার্কেট উপরে যাইতেছে, <b>ছোট Entry নিতে পারো!</b><br>• যদি ক্যান্ডেল এক জায়গাত আটকাই থাকে, মানে <b>Sideways, Trade করিও না!</b><br><br>তুমি কও ভাই, তোমার স্ক্রিনে অখন লাল বেশি নি সবুজ বেশি? আমি কইয়া দিমু কিতা করতা!';
-      speak('Bhai, ami chart dekhtasi. Lal candle beshi hoile kinio na, shobuj hoile kinte paro.');
-    }
-    else if(l.includes('kin')||l.includes('buy')||l.includes('কিন')){
-      ans='ভাই, স্ক্রিন দেখিয়া কইতেছি - তুমি যেই চার্টটা শেয়ার করছো, ওইটাত অখন <b>তাড়াহুড়া করিও না!</b> একটা ক্যান্ডেল শেষ হইতে দাও! ক্যান্ডেল শেষ হইলে যদি সবুজ হয়, তাইলে কিনিও! আর SL অবশ্যই দিবা - যেই দামে কিনবা, তার 1.5% নিচে! আমি তোমার স্ক্রিন দেখতেছি, তুমি ক্যান্ডেলটা শেষ হইতে দাও, আমি কইমু কখন কিনবা!';
-    }
-    else if(l.includes('candle')||l.includes('ক্যান্ডেল')){
-      ans='ভাই, ক্যান্ডেলটা দেখতেছি! 👀<br>• লম্বা লাল ক্যান্ডেল = বেচার চাপ বেশি, DOWN যাইবো!<br>• লম্বা সবুজ ক্যান্ডেল = কিনার চাপ বেশি, UP যাইবো!<br>• ছোট ক্যান্ডেল + লম্বা লেজ = মার্কেট কনফিউজড, Trade করিও না!<br>তোমার স্ক্রিনে অখন কুনটা? লম্বা লাল নি? আমারে কও!';
-    }
-    else if(l.includes('sl')){
-      ans='ভাই, স্ক্রিনে তুমি যেই দামে আছো, ওইটার 1.5% নিচে SL দাও! SL ছাড়া Trade করিও না ভাই! আমি তোমার স্ক্রিন দেখতেছি, তুমি SL দিছো নি? না দিলে অখনই দাও!';
-    }
-    else{
-      ans='ভাই, আমি তোমার স্ক্রিন দেখতেছি! 👀 তুমি কইছো: "'+q+'"<br><br>তুমি আমারে আরো পরিষ্কার কও - স্ক্রিনে অখন চার্ট উপরে যাইতেছে নি নিচে যাইতেছে? লাল বেশি নি সবুজ বেশি? আমি দেখিয়া কইয়া দিমু!';
-    }
-    addMsg(ans,'ai');
-    speak(ans.replace(/<[^>]*>/g,'').slice(0,150));
-  },800);
-}
-document.getElementById('inp').addEventListener('keypress',e=>{if(e.key==='Enter')sendMsg();});
 </script>
 </body>
 </html>
