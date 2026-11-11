@@ -1,116 +1,225 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LYRA BOT V4 FINAL CLEAN</title>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LYRA V7 - Market Ranking + TLC</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#000;color:#fff;padding:10px}
+body{background:#000;color:#fff;padding:10px;padding-bottom:20px}
 .top{background:#111;border:1px solid #00ff00;border-radius:12px;padding:12px;text-align:center}
-.top b{color:#00ff00;font-size:18px}
-.search{width:100%;padding:13px;background:#000;color:#fff;border:1px solid #00ff00;border-radius:12px;margin-top:10px}
-.sug{background:#111;border:1px solid #00ff00;border-radius:12px;margin-top:6px;max-height:200px;overflow-y:auto;display:none}
-.sug div{padding:11px;border-bottom:1px solid #222;cursor:pointer}
+.top b{color:#00ff00;font-size:19px}.top span{font-size:11px;color:#aaa;display:block}
+.rankBox{background:#111;border:1px solid #00ff00;border-radius:14px;padding:12px;margin-top:10px}
+.rankBox h3{color:#00ff00;font-size:15px;text-align:center}
+.rankRow{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #222;cursor:pointer}
+.rankRow:last-child{border-bottom:none}
+.rankRow b{font-size:14px}.rankRow small{font-size:11px;color:#aaa;display:block}
+.score{font-size:18px;font-weight:900;padding:6px 10px;border-radius:10px;min-width:55px;text-align:center}
+.s100{background:#00ff00;color:#000}.s66{background:#ffaa00;color:#000}.s33{background:#333;color:#fff}.s0{background:#222;color:#888}
+.badge{font-size:10px;padding:2px 6px;border-radius:10px;font-weight:bold}
+.bBinance{background:#f3ba2f;color:#000}.bYahoo{background:#6001d2;color:#fff}
+.search{width:100%;padding:13px;background:#000;color:#fff;border:1px solid #00ff00;border-radius:12px;margin-top:10px;font-size:16px}
 .live{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px;text-align:center}
 #price{font-size:32px;font-weight:900;color:#00ff00}
 .tlc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
-.tlcBox{background:#111;border:1px solid #333;border-radius:12px;padding:10px;text-align:center;font-size:12px}
-.ok{border-color:#00ff00!important}.notok{border-color:#ff0000!important}.wait{border-color:#ffaa00!important}
-.signalBox{margin-top:10px;border-radius:14px;padding:14px;text-align:center;font-weight:900}
-.sig-good{background:#003d1a;border:1px solid #00ff00;color:#00ff00}
-.sig-bad{background:#3d0000;border:1px solid #ff0000;color:#ff4444}
-.sig-wait{background:#3d2a00;border:1px solid #ffaa00;color:#ffaa00}
-.btn{width:100%;padding:13px;border:none;border-radius:25px;font-weight:900;margin-top:10px}
+.tlcBox{background:#111;border:1px solid #333;border-radius:12px;padding:10px;text-align:center}
+.tlcBox small{font-size:11px;color:#aaa;display:block}.tlcBox b{font-size:13px;display:block;margin-top:4px}.tlcBox p{font-size:11px;margin-top:4px;line-height:1.4;color:#ccc}
+.ok{border:1px solid #00ff00!important}.notok{border:1px solid #ff0000!important}.wait{border:1px solid #ffaa00!important}
+.signalBox{margin-top:10px;border-radius:14px;padding:14px;text-align:center;font-weight:900;font-size:17px}
+.sig-good{background:#003d1a;border:1px solid #00ff00;color:#00ff00}.sig-bad{background:#3d0000;border:1px solid #ff0000;color:#ff4444}.sig-wait{background:#3d2a00;border:1px solid #ffaa00;color:#ffaa00}
+.detail{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px;font-size:13px;line-height:1.7}
+.chat{background:#111;border:1px solid #333;border-radius:14px;padding:10px;margin-top:10px}
+#msgs{height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:92%;padding:10px 12px;border-radius:14px;font-size:14px;line-height:1.6}
+.me{background:#00ff00;color:#000;align-self:flex-end;font-weight:600}.ai{background:#222;align-self:flex-start;border:1px solid #333}
+.row{display:flex;gap:6px;margin-top:8px}.row input{flex:1;padding:12px;border-radius:20px;background:#000;color:#fff;border:1px solid #444;outline:none}.row button{background:#00ff00;color:#000;border:none;padding:12px 16px;border-radius:20px;font-weight:900}
+.quick{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.quick button{background:#222;color:#fff;border:1px solid #444;padding:8px 10px;border-radius:20px;font-size:12px}
+.btn{width:100%;padding:13px;border:none;border-radius:25px;font-weight:900;font-size:15px;margin-top:10px}
 .start{background:#00ff00;color:#000}.stop{background:#222;color:#fff;border:1px solid #555}
-</style></head><body>
-<div class="top"><b>LYRA BOT V4 ✅ CLEAN</b><br><span style="font-size:11px;color:#aaa">10 Real Proxy + 14 Bug Fixed + Unlimited</span></div>
-<input class="search" id="searchInp" placeholder="🔍 GOLD, EUR/USD, BTC লিখো..." oninput="yahooSearch()">
-<div class="sug" id="sugBox"></div>
-<p id="proxyInfo" style="font-size:10px;color:#00ff00;text-align:center;margin-top:6px">Proxy: Ready - 10 Real</p>
-<p id="currentTxt" style="font-size:12px;color:#aaa;text-align:center;margin-top:6px">মার্কেট: <b style="color:#00ff00">EUR/USD</b></p>
-<div class="live"><div id="price">Loading...</div><p id="candleInfo" style="font-size:11px;color:#aaa">V4 Fixed Loading...</p></div>
+.progress{height:8px;background:#222;border-radius:10px;overflow:hidden;margin-top:8px}.progress div{height:100%;background:#00ff00;width:0%;transition:0.3s}
+</style>
+</head>
+<body>
+<div class="top"><b>LYRA V7 ✅ MARKET RANKING</b><span>Bot নিজে সব মার্কেট Scan করবো! কুনটাতে Setup আছে কইয়া দিবো!</span></div>
+
+<!-- RANKING - EITAI TOMAR ASOL JINISH! -->
+<div class="rankBox">
+<h3>🏆 MARKET RANKING - কুন মার্কেটে Setup আছে?</h3>
+<p style="font-size:11px;color:#aaa;text-align:center;margin-top:4px" id="rankStatus">Scan করতেছি... সব মার্কেট দেখতেছি!</p>
+<div class="progress"><div id="rankProgress"></div></div>
+<div id="rankList" style="margin-top:8px"><p style="text-align:center;color:#aaa;padding:15px">⏳ Scan চলতেছে ভাই... 20 সেকেন্ড দাঁড়াও!</p></div>
+<button class="btn start" onclick="scanAllMarkets()" style="margin-top:8px">🔄 আবার Scan করো - Ranking আপডেট করো</button>
+</div>
+
+<input class="search" id="searchInp" placeholder="🔍 খুঁজো... BTC, EUR, GOLD..." oninput="debounceSearch()" />
+<div id="sugBox" style="background:#111;border:1px solid #00ff00;border-radius:12px;margin-top:6px;display:none;max-height:180px;overflow-y:auto"></div>
+<p style="font-size:12px;color:#aaa;text-align:center;margin-top:6px" id="currentTxt">মার্কেট: <b style="color:#00ff00">EUR/USD</b></p>
+<div class="live"><div id="price">Loading...</div><p id="candleInfo" style="font-size:11px;color:#aaa">1H+15m+5m...</p></div>
 <div class="tlc">
-<div class="tlcBox wait" id="boxT"><small>T TREND</small><b id="tVal">--</b><p id="tTxt">...</p></div>
-<div class="tlcBox wait" id="boxL"><small>L LIQUIDITY</small><b id="lVal">--</b><p id="lTxt">...</p></div>
-<div class="tlcBox wait" id="boxC"><small>C CONFIRM</small><b id="cVal">--</b><p id="cTxt">...</p></div>
+<div class="tlcBox wait" id="boxT"><small>T = TREND (1H)</small><b id="tVal">--</b><p id="tTxt">...</p></div>
+<div class="tlcBox wait" id="boxL"><small>L = LIQUIDITY (15m)</small><b id="lVal">--</b><p id="lTxt">...</p></div>
+<div class="tlcBox wait" id="boxC"><small>C = CONFIRM (5m)</small><b id="cVal">--</b><p id="cTxt">...</p></div>
 </div>
 <div id="signalBox" class="signalBox sig-wait">🟡 TLC অপেক্ষা...</div>
-<div id="detailBox" style="background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px;font-size:12px">V4 Ready</div>
-<button class="btn start" id="mainBtn" onclick="toggleApp()">▶️ BOT START</button>
+<div class="detail" id="detailBox">V7 Ranking Ready!</div>
+
+<div class="chat">
+<div id="msgs"><div class="msg ai">ভাই, আমি LYRA V7! 🙏<br><br>অখন আমি <b>একটা একটা মার্কেট খুলিয়া দেখমু না!</b><br>আমি <b>সব মার্কেট এক লগে Scan</b> করিয়া Ranking দিমু!<br><br>👉 <b>100 Score = TLC 3টা মিলছে! Trade নাও!</b><br>👉 <b>66 Score = 2টা মিলছে! Wait করো!</b><br>👉 <b>0 Score = Setup নাই! Trade নাই!</b><br><br>তুমি জিগাও - <b>"সবচেয়ে ভালা মার্কেট কুনটা?"</b></div></div>
+<div class="row"><input id="inp" placeholder="জিগাও... সবচেয়ে ভালা মার্কেট কুনটা?" /><button onclick="sendMsg()">SEND</button></div>
+</div>
+<div class="quick">
+<button onclick="ask('সবচেয়ে ভালা মার্কেট কুনটা?')">🏆 বেস্ট মার্কেট কুনটা?</button>
+<button onclick="ask('এই মার্কেটের প্রাইস অখন কত?')">প্রাইস কত?</button>
+<button onclick="scanAllMarkets()">🔄 Scan করো</button>
+</div>
+
 <script>
-let current={n:"EUR/USD",s:"EURUSD=X"},running=false,timerIv=null,lastPrice=0,isFetching=false,cache={},cacheTime={};
-// 10 REAL UNIQUE PROXY - NO DUPLICATE
-const PROXY_LIST=[
-"https://api.allorigins.win/raw?url=",
-"https://api.allorigins.win/get?url=",
-"https://corsproxy.io/?",
-"https://api.codetabs.com/v1/proxy?quest=",
-"https://thingproxy.freeboard.io/fetch/",
-"https://cors.bridged.cc/",
-"https://proxy.cors.sh/",
-"https://yacdn.org/proxy/",
-"https://api.cors.lol/?url=",
-"https://corsproxy.org/?"
-];
+let current={n:"EUR/USD",s:"EURUSD=X",isCrypto:false},running=false,timerIv=null,lastPrice=0,lastT_str="",lastL_str="",lastC_str="",lastDir="",isFetching=false,lastSL=0,lastTP=0,searchTimer=null,rankData=[];
+const PROXIES=["https://api.allorigins.win/raw?url=","https://corsproxy.io/?url=","https://api.codetabs.com/v1/proxy?quest=","https://corsproxy.org/?","https://api.cors.lol/?url="];
 let proxyIndex=0;
-async function fetchWithProxy(url){
- if(cache[url] && Date.now()-cacheTime[url]<45000){document.getElementById('proxyInfo').innerText="Proxy: Cache ✅";return cache[url];}
- for(let i=0;i<PROXY_LIST.length;i++){
-   let pUrl=PROXY_LIST[proxyIndex]+encodeURIComponent(url);
-   proxyIndex=(proxyIndex+1)%PROXY_LIST.length;
-   document.getElementById('proxyInfo').innerText="Proxy: Trying "+(proxyIndex+1)+"/10 - "+PROXY_LIST[proxyIndex].split('/')[2];
-   try{
-     let ctrl=new AbortController();setTimeout(()=>ctrl.abort(),5000);
-     let r=await fetch(pUrl,{signal:ctrl.signal});
-     if(!r.ok) continue;
-     let txt=await r.text(),data;
-     try{data=JSON.parse(txt);if(data.contents) data=JSON.parse(data.contents);}catch(e){data=JSON.parse(txt);}
-     if(data.chart||data.quotes){cache[url]=data;cacheTime[url]=Date.now();document.getElementById('proxyInfo').innerText="Proxy: Success #"+(proxyIndex+1)+" ✅";return data;}
-   }catch(e){continue;}
- }
- throw new Error("fail");
+// RANKING-র লাগি সব মার্কেট - Bot নিজে Scan করবো!
+const RANK_MARKETS=[
+ {n:"BTC / USD",s:"BTCUSDT",crypto:true},
+ {n:"ETH / USD",s:"ETHUSDT",crypto:true},
+ {n:"SOL / USD",s:"SOLUSDT",crypto:true},
+ {n:"DOGE / USD",s:"DOGEUSDT",crypto:true},
+ {n:"XRP / USD",s:"XRPUSDT",crypto:true},
+ {n:"EUR / USD",s:"EURUSD=X",crypto:false},
+ {n:"GBP / USD",s:"GBPUSD=X",crypto:false},
+ {n:"USD / JPY",s:"USDJPY=X",crypto:false},
+ {n:"USD / CHF",s:"USDCHF=X",crypto:false},
+ {n:"AUD / USD",s:"AUDUSD=X",crypto:false},
+ {n:"USD / CAD",s:"USDCAD=X",crypto:false},
+ {n:"GOLD / USD",s:"XAUUSD=X",crypto:false},
+ {n:"GBP / JPY",s:"GBPJPY=X",crypto:false},
+ {n:"EUR / JPY",s:"EURJPY=X",crypto:false},
+ {n:"CHF / JPY",s:"CHFJPY=X",crypto:false},
+];
+function isCryptoSymbol(sym){let s=sym.toUpperCase(); if(s.includes("=X")||s.includes("=F")) return false; return s.endsWith("USDT");}
+function getDec(sym,price){if(sym.includes("JPY")) return 3; if(price>1000) return 2; if(price<2) return 5; return 4;}
+function calcEMA(v,p){if(v.length<p) return v[v.length-1]; let sma=v.slice(0,p).reduce((a,b)=>a+b,0)/p; let k=2/(p+1),ema=sma; for(let i=p;i<v.length;i++) ema=v[i]*k+ema*(1-k); return ema;}
+function calcATR(h,l,c,p=14){let trs=[]; for(let i=1;i<h.length;i++) trs.push(Math.max(h[i]-l[i],Math.abs(h[i]-c[i-1]),Math.abs(l[i]-c[i-1]))); return trs.slice(-p).reduce((a,b)=>a+b,0)/p;}
+async function fetchBinanceKlines(symbol,interval,limit){
+  let cleanSym=symbol.replace(/[^A-Z0-9]/g,"").toUpperCase(); if(!cleanSym.endsWith("USDT")) cleanSym+="USDT";
+  let url=`https://api.binance.com/api/v3/klines?symbol=${cleanSym}&interval=${interval}&limit=${limit}`;
+  try{let r=await fetch(url); let data=await r.json(); return {open:data.map(d=>parseFloat(d[1])),high:data.map(d=>parseFloat(d[2])),low:data.map(d=>parseFloat(d[3])),close:data.map(d=>parseFloat(d[4]))};}
+  catch(e){let p=PROXIES[proxyIndex%PROXIES.length]; proxyIndex++; let r=await fetch(p+encodeURIComponent(url)); let txt=await r.text(); let data=JSON.parse(txt); if(data.contents) data=JSON.parse(data.contents); return {open:data.map(d=>parseFloat(d[1])),high:data.map(d=>parseFloat(d[2])),low:data.map(d=>parseFloat(d[3])),close:data.map(d=>parseFloat(d[4]))};}
 }
-function calcEMA(closes,period){
- let v=closes.filter(x=>x!=null&&x!=undefined);if(v.length<period) return v[v.length-1];
- let sma=v.slice(0,period).reduce((a,b)=>a+b,0)/period,k=2/(period+1),ema=sma;
- for(let i=period;i<v.length;i++) ema=v[i]*k+ema*(1-k);return ema;
+async function fetchYahoo(sym,range,interval){
+  let url=`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?range=${range}&interval=${interval}`;
+  for(let i=0;i<PROXIES.length;i++){let p=PROXIES[proxyIndex%PROXIES.length]; proxyIndex++; try{let r=await fetch(p+encodeURIComponent(url)); let txt=await r.text(); let data=JSON.parse(txt); if(data.contents) data=JSON.parse(data.contents); let q=data.chart.result[0].indicators.quote[0]; return {open:q.open.filter(x=>x!=null),high:q.high.filter(x=>x!=null),low:q.low.filter(x=>x!=null),close:q.close.filter(x=>x!=null)};}catch(e){continue;}}
+  throw new Error("yahoo fail");
 }
-function calcATR(h,l,c,p=14){let trs=[];for(let i=1;i<h.length;i++) trs.push(Math.max(h[i]-l[i],Math.abs(h[i]-c[i-1]),Math.abs(l[i]-c[i-1])));return trs.slice(-p).reduce((a,b)=>a+b,0)/p;}
-async function fetchYahoo(s,r,interval){let url=`https://query1.finance.yahoo.com/v8/finance/chart/${s}?range=${r}&interval=${interval}`;let d=await fetchWithProxy(url);return d.chart.result[0];}
-async function yahooSearch(){
- let q=document.getElementById('searchInp').value.trim(),box=document.getElementById('sugBox');
- if(q.length<2){box.style.display='none';return;}box.style.display='block';box.innerHTML='<div>🔍 খুঁজতেছি...</div>';
- try{
-  let url=`https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(q)}&quotesCount=10&newsCount=0`;
-  let d=await fetchWithProxy(url),quotes=d.quotes||[];if(!quotes.length){box.innerHTML='<div>পাই নাই</div>';return;}
-  box.innerHTML='';quotes.forEach(qt=>{
-   let div=document.createElement('div');div.innerHTML='<b>'+qt.symbol+'</b><br><span style="font-size:11px;color:#aaa">'+(qt.shortname||'')+'</span>';
-   div.onclick=()=>{current={n:qt.shortname||qt.symbol,s:qt.symbol};document.getElementById('currentTxt').innerHTML='মার্কেট: <b style="color:#00ff00">'+current.n+'</b>';document.getElementById('searchInp').value='';box.style.display='none';doTLC();};box.appendChild(div);
+// 1 TA MARKET-র TLC SCORE HISAB!
+async function calcOneScore(m){
+  try{
+    let d1h,d15m,d5m;
+    if(m.crypto){ d1h=await fetchBinanceKlines(m.s,"1h",250); d15m=await fetchBinanceKlines(m.s,"15m",80); d5m=await fetchBinanceKlines(m.s,"5m",60); }
+    else{ d1h=await fetchYahoo(m.s,"1mo","1h"); await new Promise(r=>setTimeout(r,300)); d15m=await fetchYahoo(m.s,"2d","15m"); await new Promise(r=>setTimeout(r,300)); d5m=await fetchYahoo(m.s,"1d","5m"); }
+    let c1h=d1h.close,lastP=c1h[c1h.length-1];
+    let ema50=calcEMA(c1h,50),ema200=calcEMA(c1h,200);
+    let trend=(ema50>ema200&&lastP>ema50)?"UP":(ema50<ema200&&lastP<ema50)?"DOWN":"SIDE";
+    let lows15=d15m.low,highs15=d15m.high,closes15=d15m.close;
+    let prevLow=Math.min(...lows15.slice(-22,-2)),prevHigh=Math.max(...highs15.slice(-22,-2));
+    let lastLow=lows15[lows15.length-1],lastHigh=highs15[highs15.length-1],lastClose15=closes15[closes15.length-1];
+    let sweepLow=lastLow<prevLow&&lastClose15>prevLow; let sweepHigh=lastHigh>prevHigh&&lastClose15<prevHigh;
+    let liq=sweepLow?"SweepLow":sweepHigh?"SweepHigh":"NoSweep";
+    let o5=d5m.open,c5=d5m.close;
+    let lastO=o5[o5.length-1],lastC5=c5[c5.length-1],prevO=o5[o5.length-2],prevC=c5[c5.length-2];
+    let bullEng=lastC5>lastO&&prevC<prevO&&lastC5>prevO; let bearEng=lastC5<lastO&&prevC>prevO&&lastC5<prevO;
+    let conf=bullEng?"BullEng":bearEng?"BearEng":"NoEng";
+    // SCORE - T + L + C MILLE KOTO?
+    let score=0, dir="WAIT", reason="";
+    if(trend==="UP"&&sweepLow&&bullEng){score=100; dir="BUY"; reason="TLC 3টাই মিলছে!";}
+    else if(trend==="DOWN"&&sweepHigh&&bearEng){score=100; dir="SELL"; reason="TLC 3টাই মিলছে!";}
+    else{
+      if(trend!=="SIDE") score+=33;
+      if(liq!=="NoSweep") score+=33;
+      if(conf!=="NoEng") score+=34;
+      if(score>=66) dir="WAIT - 2টা মিলছে"; else if(score>0) dir="WAIT - 1টা মিলছে"; else dir="NO SETUP";
+      reason=`T:${trend} L:${liq} C:${conf}`;
+    }
+    return {n:m.n,s:m.s,crypto:m.crypto,price:lastP,score,dir,reason,trend,liq,conf};
+  }catch(e){ return {n:m.n,s:m.s,crypto:m.crypto,price:0,score:0,dir:"ERROR",reason:"ডাটা আইলো না",trend:"-",liq:"-",conf:"-"}; }
+}
+// SOB MARKET SCAN KORIYA RANKING!
+async function scanAllMarkets(){
+  document.getElementById('rankStatus').innerText="🔍 Scan চলতেছে... "+RANK_MARKETS.length+"টা মার্কেট দেখতেছি!";
+  document.getElementById('rankList').innerHTML='<p style="text-align:center;color:#aaa;padding:15px">⏳ Scan চলতেছে ভাই...</p>';
+  rankData=[];
+  for(let i=0;i<RANK_MARKETS.length;i++){
+    document.getElementById('rankProgress').style.width=((i+1)/RANK_MARKETS.length*100)+"%";
+    document.getElementById('rankStatus').innerText=`🔍 Scan: ${i+1}/${RANK_MARKETS.length} - ${RANK_MARKETS[i].n} দেখতেছি...`;
+    let r=await calcOneScore(RANK_MARKETS[i]);
+    rankData.push(r);
+  }
+  // RANKING - Score diya sort!
+  rankData.sort((a,b)=>b.score-a.score);
+  renderRanking();
+  let best=rankData[0];
+  document.getElementById('rankStatus').innerText=`✅ Scan শেষ! বেস্ট মার্কেট: ${best.n} - ${best.dir} (${best.score} Score)`;
+  if(best.score===100){
+    addMsg(`🏆 <b>বেস্ট মার্কেট পাইছি ভাই!</b><br><br><b>${best.n}</b> - <b>${best.dir}!</b><br>Score: <b>100/100!</b><br>Price: ${best.price.toFixed(getDec(best.s,best.price))}<br>TLC 3টাই মিলছে! এইটাতে Trade নাও!`,'ai');
+    // Auto oi market-এ যাও!
+    current={n:best.n,s:best.s,isCrypto:best.crypto};
+    document.getElementById('currentTxt').innerHTML='মার্কেট: <b style="color:#00ff00">'+best.n+' (Auto - Best Ranking)</b>';
+    doTLC();
+  }else{
+    addMsg(`🏆 <b>Scan শেষ ভাই!</b><br>অখন কোনো মার্কেটে 100 Score নাই!<br>বেস্ট: <b>${best.n}</b> - ${best.dir} (${best.score} Score)<br><br><b>Trade নিও না, Wait করো!</b> 0টা Trade-ও Joy!`,'ai');
+  }
+}
+function renderRanking(){
+  let box=document.getElementById('rankList'); box.innerHTML='';
+  rankData.forEach((r,idx)=>{
+    let div=document.createElement('div'); div.className='rankRow';
+    let medal=idx===0?"🥇":idx===1?"🥈":idx===2?"🥉":(idx+1)+".";
+    let scoreCls=r.score===100?'s100':r.score>=66?'s66':r.score>0?'s33':'s0';
+    let dirColor=r.dir==="BUY"?"#00ff00":r.dir==="SELL"?"#ff4444":"#ffaa00";
+    div.innerHTML=`<div><b>${medal} ${r.n}</b><small>${r.reason} • <span style="color:${dirColor}">${r.dir}</span></small></div><div style="text-align:right"><div class="score ${scoreCls}">${r.score}</div><span class="badge ${r.crypto?'bBinance':'bYahoo'}">${r.crypto?'BINANCE':'YAHOO'}</span></div>`;
+    div.onclick=()=>{current={n:r.n,s:r.s,isCrypto:r.crypto}; document.getElementById('currentTxt').innerHTML='মার্কেট: <b style="color:#00ff00">'+r.n+' - '+r.s+'</b>'; addMsg('✅ মার্কেট বদলাইছি: <b>'+r.n+'</b><br>Score: '+r.score+' • '+r.dir,'ai'); doTLC();};
+    box.appendChild(div);
   });
- }catch(e){box.innerHTML='<div>Error, আবার লিখো</div>';}
 }
+function debounceSearch(){ clearTimeout(searchTimer); let q=document.getElementById('searchInp').value.trim(); if(q.length<2){document.getElementById('sugBox').style.display='none';return;} searchTimer=setTimeout(()=>{ let qq=q.toUpperCase(); let box=document.getElementById('sugBox'); box.style.display='block'; box.innerHTML=''; ["BTCUSDT","ETHUSDT","EURUSD=X","XAUUSD=X"].filter(s=>s.includes(qq)||qq.length<3).forEach(sym=>{let d=document.createElement('div'); d.style.padding='10px'; d.style.borderBottom='1px solid #222'; d.innerText=sym; d.onclick=()=>{current={n:sym,s:sym,isCrypto:isCryptoSymbol(sym)}; document.getElementById('currentTxt').innerHTML='মার্কেট: <b style="color:#00ff00">'+sym+'</b>'; box.style.display='none'; doTLC();}; box.appendChild(d);}); },600); }
 async function doTLC(){
- if(isFetching) return;isFetching=true;
- try{
-  let r1h=await fetchYahoo(current.s,"5d","1h"),q1h=r1h.indicators.quote[0],c1h=q1h.close.filter(x=>x),lastP=c1h[c1h.length-1];lastPrice=lastP;
-  let ema50=calcEMA(c1h,50),ema200=calcEMA(c1h,200),trend=(ema50>ema200&&lastP>ema50)?"UPTREND":(ema50<ema200&&lastP<ema50)?"DOWNTREND":"SIDEWAYS";
-  let r15=await fetchYahoo(current.s,"2d","15m"),q15=r15.indicators.quote[0],closes15=q15.close.filter(x=>x),lows15=q15.low.filter(x=>x),highs15=q15.high.filter(x=>x);
-  let prevLow=Math.min(...lows15.slice(-22,-2)),prevHigh=Math.max(...highs15.slice(-22,-2)),lastLow=lows15[lows15.length-1],lastHigh=highs15[highs15.length-1],lastClose15=closes15[closes15.length-1],atrTemp=calcATR(highs15,lows15,closes15,14);
-  let sweepLow=lastLow<prevLow&&lastClose15>prevLow&&(prevLow-lastLow)>atrTemp*0.3,sweepHigh=lastHigh>prevHigh&&lastClose15<prevHigh&&(lastHigh-prevHigh)>atrTemp*0.3,liq=sweepLow?"SWEEP LOW ✅":sweepHigh?"SWEEP HIGH ✅":"NO SWEEP ❌";
-  let r5=await fetchYahoo(current.s,"1d","5m"),q5=r5.indicators.quote[0],o5=q5.open.filter(x=>x),c5=q5.close.filter(x=>x),h5=q5.high.filter(x=>x),l5=q5.low.filter(x=>x),atr5=calcATR(h5,l5,c5,14);
-  let lastO=o5[o5.length-1],lastC5=c5[c5.length-1],prevO=o5[o5.length-2],prevC=c5[c5.length-2],bodyCurr=Math.abs(lastC5-lastO),bodyPrev=Math.abs(prevC-prevO);
-  let bullEng=lastC5>lastO&&prevC<prevO&&lastO<prevC&&lastC5>prevO&&bodyCurr>bodyPrev*1.2,bearEng=lastC5<lastO&&prevC>prevO&&lastO>prevC&&lastC5<prevO&&bodyCurr>bodyPrev*1.2,conf=bullEng?"BULLISH ENGULFING ✅":bearEng?"BEARISH ENGULFING ✅":"NO ENGULFING ❌";
-  let dec=current.s.includes("JPY")||current.s.includes("XAU")?3:current.s.includes("BTC")||lastP>1000?2:5;
-  document.getElementById('price').innerText=lastP.toFixed(dec);
-  document.getElementById('tVal').innerText=trend;document.getElementById('boxT').className='tlcBox '+(trend!="SIDEWAYS"?'ok':'wait');
-  document.getElementById('lVal').innerText=liq;document.getElementById('boxL').className='tlcBox '+(liq.includes("✅")?'ok':'notok');
-  document.getElementById('cVal').innerText=conf;document.getElementById('boxC').className='tlcBox '+(conf.includes("✅")?'ok':'notok');
-  document.getElementById('candleInfo').innerText=trend+" • "+liq+" • "+conf;
-  let box=document.getElementById('signalBox'),detail=document.getElementById('detailBox'),sl,tp;
-  if(trend=="UPTREND"&&sweepLow&&bullEng){sl=lastP-atr5*1.5;tp=lastP+atr5*2;box.innerText="✅ BUY "+lastP.toFixed(dec)+" SL:"+sl.toFixed(dec)+" TP:"+tp.toFixed(dec);box.className="signalBox sig-good";detail.innerHTML="✅ BUY<br>ATR SL/TP";}
-  else if(trend=="DOWNTREND"&&sweepHigh&&bearEng){sl=lastP+atr5*1.5;tp=lastP-atr5*2;box.innerText="⛔ SELL "+lastP.toFixed(dec)+" SL:"+sl.toFixed(dec)+" TP:"+tp.toFixed(dec);box.className="signalBox sig-bad";detail.innerHTML="⛔ SELL<br>ATR SL/TP";}
-  else{box.innerText="🟡 WAIT - TLC মিলে নাই";box.className="signalBox sig-wait";detail.innerHTML="🟡 WAIT<br>T:"+trend+" L:"+liq+" C:"+conf;}
-  isFetching=false;
- }catch(e){isFetching=false;document.getElementById('proxyInfo').innerText="Proxy: Retry...";}
+  if(isFetching) return; isFetching=true;
+  try{
+    let m={s:current.s,crypto:isCryptoSymbol(current.s)};
+    let r=await calcOneScore({n:current.n,s:current.s,crypto:m.crypto});
+    lastPrice=r.price; lastT_str=r.trend; lastL_str=r.liq; lastC_str=r.conf;
+    let dec=getDec(current.s,lastPrice);
+    document.getElementById('price').innerText=lastPrice.toFixed(dec);
+    document.getElementById('tVal').innerText=r.trend; document.getElementById('tTxt').innerText=r.trend==="UP"?"UPTREND ✅":r.trend==="DOWN"?"DOWNTREND ✅":"SIDEWAYS ❌"; document.getElementById('boxT').className='tlcBox '+(r.trend!=="SIDE"?'ok':'wait');
+    document.getElementById('lVal').innerText=r.liq; document.getElementById('lTxt').innerText=r.liq; document.getElementById('boxL').className='tlcBox '+(r.liq!=="NoSweep"?'ok':'notok');
+    document.getElementById('cVal').innerText=r.conf; document.getElementById('cTxt').innerText=r.conf; document.getElementById('boxC').className='tlcBox '+(r.conf!=="NoEng"?'ok':'notok');
+    document.getElementById('candleInfo').innerText=`${r.trend} • ${r.liq} • ${r.conf} • Score: ${r.score}`;
+    let box=document.getElementById('signalBox'),detail=document.getElementById('detailBox');
+    if(r.score===100&&r.dir==="BUY"){lastDir="BUY"; box.innerText=`✅ BUY! Entry:${lastPrice.toFixed(dec)} • Score 100!`; box.className="signalBox sig-good"; detail.innerHTML=`✅ <b>BUY - TLC MILSE!</b><br>Score 100/100! Entry: ${lastPrice.toFixed(dec)}`;}
+    else if(r.score===100&&r.dir==="SELL"){lastDir="SELL"; box.innerText=`⛔ SELL! Entry:${lastPrice.toFixed(dec)} • Score 100!`; box.className="signalBox sig-bad"; detail.innerHTML=`⛔ <b>SELL - TLC MILSE!</b><br>Score 100/100! Entry: ${lastPrice.toFixed(dec)}`;}
+    else{lastDir="WAIT"; box.innerText=`🟡 WAIT - Score ${r.score}/100 - Trade নাই!`; box.className="signalBox sig-wait"; detail.innerHTML=`🟡 <b>WAIT - Score ${r.score}!</b><br>${r.reason}`;}
+    isFetching=false;
+  }catch(e){isFetching=false;}
 }
-function toggleApp(){if(!running){running=true;document.getElementById('mainBtn').innerText='⏹️ BANDHO';document.getElementById('mainBtn').className='btn stop';doTLC();timerIv=setInterval(doTLC,60000);}else{running=false;clearInterval(timerIv);document.getElementById('mainBtn').innerText='▶️ BOT START';document.getElementById('mainBtn').className='btn start';}}
-doTLC();
-</script></body></html>
+function addMsg(t,w){let d=document.createElement('div'); d.className='msg '+(w==='me'?'me':'ai'); d.innerHTML=t; document.getElementById('msgs').appendChild(d); document.getElementById('msgs').scrollTop=99999;}
+function ask(q){document.getElementById('inp').value=q; sendMsg();}
+async function sendMsg(){
+  let inp=document.getElementById('inp'); let q=inp.value.trim(); if(!q) return; addMsg(q,'me'); inp.value='';
+  let l=q.toLowerCase();
+  if(l.includes("ভালা")||l.includes("best")||l.includes("বেস্ট")||l.includes("ranking")||l.includes("কুনটা")){
+    if(rankData.length===0){addMsg('ভাই, এখনও Scan করি নাই! উপরে <b>"Scan করো"</b> টিপ দাও, আমি সব মার্কেট দেখিয়া Ranking দিমু!','ai'); return;}
+    let best=rankData[0];
+    let listHtml=rankData.slice(0,3).map((r,i)=>`${i+1}. ${r.n} - ${r.score} Score - ${r.dir}`).join("<br>");
+    addMsg(`🏆 <b>সবচেয়ে ভালা মার্কেট:</b><br><br><b>${best.n} - ${best.dir} (${best.score} Score)</b><br>Price: ${best.price.toFixed(getDec(best.s,best.price))}<br><br><b>Top 3:</b><br>${listHtml}<br><br>${best.score===100?"✅ এইটাতে Trade নাও!":"🟡 অখন কোনোটাতে 100 নাই, Trade নিও না!"}`,'ai');
+  }else if(l.includes("price")||l.includes("প্রাইস")||l.includes("কত")){
+    await doTLC(); addMsg(`ভাই, ${current.n}-র প্রাইস <b>${lastPrice.toFixed(getDec(current.s,lastPrice))}</b>, Signal: <b>${lastDir}</b>`,'ai');
+  }else{
+    addMsg(`ভাই, ${current.n}-র Score: বেস্ট মার্কেট জানতে জিগাও - <b>"সবচেয়ে ভালা মার্কেট কুনটা?"</b>`,'ai');
+  }
+}
+document.getElementById('inp').addEventListener('keypress',e=>{if(e.key==='Enter')sendMsg();});
+// LINK KHULLEI AUTO SCAN!
+scanAllMarkets();
+setInterval(scanAllMarkets, 300000);
+</script>
+</body>
+ </html>
