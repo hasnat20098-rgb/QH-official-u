@@ -3,21 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LYRA - App Nije Chart Dekhbo</title>
+<title>LYRA REAL ANALYSIS - No Random</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#000;color:#fff;padding:10px}
 .top{background:#111;border:1px solid #ff0000;border-radius:12px;padding:12px;text-align:center}
-.top b{color:#ff0000;font-size:22px}.top span{font-size:11px;color:#aaa;display:block;margin-top:2px}
-.status{background:#111;border:1px solid #00ff00;border-radius:12px;padding:12px;margin-top:10px;text-align:center}
-.status b{color:#00ff00;font-size:18px}.status p{font-size:12px;color:#aaa;margin-top:4px}
-#livePrice{font-size:32px;font-weight:900;color:#00ff00}
-#trend{font-size:14px;font-weight:900;margin-top:4px}
+.top b{color:#ff0000;font-size:22px}.top span{font-size:11px;color:#aaa;display:block}
+.live{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin-top:10px;text-align:center}
+#price{font-size:32px;font-weight:900;color:#00ff00}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.card{background:#111;border:1px solid #333;border-radius:10px;padding:10px;text-align:center}
+.card small{font-size:11px;color:#aaa;display:block}.card b{font-size:16px}
 .box{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin-top:10px}
-.box h3{color:#ff0000;font-size:15px}
-#msgs{height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.msg{padding:11px 12px;border-radius:14px;font-size:14px;line-height:1.6}
-.ai{background:#222;border:1px solid #333}
+#msgs{height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.msg{padding:11px 12px;border-radius:14px;font-size:14px;line-height:1.6;background:#222;border:1px solid #333}
 .good{border:1px solid #00ff00!important;background:#003d1a!important}
 .bad{border:1px solid #ff0000!important;background:#3d0000!important}
 .wait{border:1px solid #ffaa00!important}
@@ -26,90 +25,106 @@ body{background:#000;color:#fff;padding:10px}
 </style>
 </head>
 <body>
-<div class="top"><b>LYRA AI - APP NIJE DEKHBO</b><span>TUMI DEKHBA NA • APP TA NIJE CHART DEKHBO • NIJE ANALYSIS KORBO</span></div>
+<div class="top"><b>LYRA REAL ANALYSIS</b><span>NO RANDOM • ASOL CANDLE DEKHIYA HISAB • PASS LAGE NA</span></div>
 
-<div class="status">
-<p>APP TA EKHON CHART DEKH TESE • LIVE PRICE</p>
-<div id="livePrice">Loading...</div>
-<div id="trend">App chart dekhtese...</div>
-<p id="watchTime">App cholse: 00:00</p>
+<div class="live">
+<p style="font-size:12px;color:#aaa">BTC / USDT • BINANCE ASOL CANDLE • LIVE</p>
+<div id="price">Loading...</div>
+<div id="candleInfo" style="font-size:13px;margin-top:4px">Candle anhtesi...</div>
 </div>
 
-<button class="btn start" id="mainBtn" onclick="toggleApp()">▶️ APP START করো - App Nije Chart Dekhbo</button>
+<div class="grid">
+<div class="card"><small>RSI (14)</small><b id="rsi">--</b></div>
+<div class="card"><small>EMA 20</small><b id="ema">--</b></div>
+<div class="card"><small>LAST 10 CANDLE</small><b id="candleCount">--</b></div>
+</div>
+
+<button class="btn start" id="mainBtn" onclick="toggleApp()">▶️ REAL ANALYSIS START করো</button>
 
 <div class="box">
-<h3>📋 APP-ER NIJE ANALYSIS - TUMI KHALI PORBA</h3>
-<div id="msgs"><div class="msg ai">ভাই, আমি LYRA! 🙏<br><br><b>তুমি চার্ট দেখবা না!</b> আমি দেখমু!<br><br>তুমি খালি উপরে <b>APP START</b> টিপ দাও!<br>তারপর আমি নিজে নিজে চার্ট দেখমু, নিজে নিজে বিশ্লেষণ করমু, 5 মিনিট পর পর তোমারে কইমু -<br>• গত 5 মিনিটে কিতা হইছে?<br>• এখন Entry নিলে ভালো নি?<br>• নাহলে বন্ধ থাকবা নি?<br><br>তুমি খালি বইয়া থাকো, আমি দেখতেছি!</div></div>
+<h3 style="color:#ff0000;font-size:15px">📋 LYRA-র ASOL ANALYSIS - RANDOM NA</h3>
+<div id="msgs"><div class="msg">ভাই, আমি LYRA! 🙏<br><br>আগেরটা Random আছিলো, মাফ করো ভাই! এইটা Random না!<br><br>এই অ্যাপটা <b>Binance থাকি আসল ক্যান্ডেল</b> আনবো - গত 50 টা ক্যান্ডেল! তারপর নিজে হিসাব করবো -<br>• <b>RSI</b> কত? 70-র উপরে গেলে Overbought, 30-র নিচে গেলে Oversold!<br>• <b>EMA</b> - প্রাইস EMA-র উপরে নি নিচে?<br>• <b>ক্যান্ডেল</b> - গত 10 টা ক্যান্ডেলে কয়টা সবুজ, কয়টা লাল?<br><br>তারপর ওই হিসাব দিয়া কইমু - Entry ভালো নি খারাপ!<br>তুমি খালি <b>START</b> টিপ দাও!</div></div>
 </div>
 
 <script>
-let running=false, prices=[], startSec=0, timerIv=null, reportIv=null, reportCount=0, firstPrice=0;
+let running=false, timerIv=null;
 function speak(t){try{let u=new SpeechSynthesisUtterance(t);u.lang='en-US';speechSynthesis.speak(u);}catch(e){}}
-function addMsg(html, cls='ai'){let d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;document.getElementById('msgs').appendChild(d);document.getElementById('msgs').scrollTop=99999;}
+function addMsg(html, cls=''){let d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;document.getElementById('msgs').appendChild(d);document.getElementById('msgs').scrollTop=99999;}
 
-async function getPrice(){
-  try{
-    let r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
-    let d=await r.json();
-    let p=parseFloat(d.price);
-    if(firstPrice===0) firstPrice=p;
-    prices.push(p);
-    if(prices.length>100) prices.shift();
-    let el=document.getElementById('livePrice');
-    el.innerText='$'+p.toLocaleString('en-US',{minimumFractionDigits:2});
-    // App nije bujhtese - upore ni niche?
-    if(prices.length>2){
-      let old=prices[prices.length-10]||prices[0];
-      let diff=((p-old)/old*100).toFixed(3);
-      let trendEl=document.getElementById('trend');
-      if(p>old){trendEl.innerText='📈 APP DEKHSE: Price UP jaitase (+'+diff+'%)';trendEl.style.color='#00ff00';el.style.color='#00ff00';}
-      else if(p<old){trendEl.innerText='📉 APP DEKHSE: Price DOWN jaitase ('+diff+'%)';trendEl.style.color='#ff4444';el.style.color='#ff4444';}
-      else{trendEl.innerText='🟡 APP DEKHSE: Price ek jaygay atkai ase';trendEl.style.color='#ffaa00';}
-    }
-  }catch(e){document.getElementById('livePrice').innerText='App Chart Dekhtese...';}
+// RSI HISAB - ASOL FORMULA
+function calcRSI(closes, period=14){
+  let gains=0, losses=0;
+  for(let i=1;i<=period;i++){
+    let diff=closes[closes.length-period-1+i]-closes[closes.length-period-2+i];
+    if(diff>=0) gains+=diff; else losses-=diff;
+  }
+  let avgGain=gains/period, avgLoss=losses/period;
+  if(avgLoss===0) return 100;
+  let rs=avgGain/avgLoss;
+  return 100 - (100/(1+rs));
 }
-getPrice(); setInterval(getPrice, 2000);
+function calcEMA(closes, period=20){
+  let k=2/(period+1);
+  let ema=closes[0];
+  for(let i=1;i<closes.length;i++){ema=closes[i]*k+ema*(1-k);}
+  return ema;
+}
+
+async function realAnalysis(){
+  try{
+    // BINANCE THAKI ASOL 50 TA CANDLE ANBO - 1 MIN ER
+    let r=await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50');
+    let data=await r.json();
+    let closes=data.map(c=>parseFloat(c[4]));
+    let opens=data.map(c=>parseFloat(c[1]));
+    let lastPrice=closes[closes.length-1];
+    let rsi=calcRSI(closes);
+    let ema=calcEMA(closes);
+    let green=0, red=0;
+    for(let i=closes.length-10;i<closes.length;i++){if(closes[i]>opens[i])green++;else red++;}
+    let change=((closes[closes.length-1]-closes[closes.length-11])/closes[closes.length-11]*100);
+
+    document.getElementById('price').innerText='$'+lastPrice.toLocaleString('en-US',{minimumFractionDigits:2});
+    document.getElementById('rsi').innerText=rsi.toFixed(1);
+    document.getElementById('rsi').style.color=rsi>70?'#ff4444':rsi<30?'#00ff00':'#fff';
+    document.getElementById('ema').innerText='$'+ema.toFixed(0);
+    document.getElementById('candleCount').innerText=green+' 🟢 / '+red+' 🔴';
+    document.getElementById('candleInfo').innerText='Goto 10 candle: '+green+' ta Sobuj, '+red+' ta Lal • Change: '+change.toFixed(3)+'%';
+
+    // ASOL LOGIC - RANDOM NA
+    let msg='', cls='', sp='';
+    if(rsi<30 && lastPrice>ema && green>red){
+      msg='<b>⏰ ASOL ANALYSIS - '+new Date().toLocaleTimeString()+'</b><br>• Price: $'+lastPrice.toFixed(2)+'<br>• RSI: '+rsi.toFixed(1)+' (30-র নিচে, Oversold, উপরে যাওয়ার চান্স!)<br>• Price EMA-র উপরে আছে<br>• Goto 10 candle: '+green+' Sobuj, '+red+' Lal<br><br><b>DECISION:</b><br>✅ <b>EKHON ENTRY NILE VALO!</b> RSI কম, মার্কেট উপরে যাইতে চাইতেছে!';
+      cls='good'; sp='Bhai, ekhon entry nile bhalo, RSI kom, market upore jaibo.';
+    } else if(rsi>70 && lastPrice<ema && red>green){
+      msg='<b>⏰ ASOL ANALYSIS - '+new Date().toLocaleTimeString()+'</b><br>• Price: $'+lastPrice.toFixed(2)+'<br>• RSI: '+rsi.toFixed(1)+' (70-র উপরে, Overbought, নিচে নামার চান্স!)<br>• Price EMA-র নিচে আছে<br>• Goto 10 candle: '+green+' Sobuj, '+red+' Lal<br><br><b>DECISION:</b><br>⛔ <b>EKHON ENTRY VALO NA, BONDHO THAKO!</b> RSI বেশি, মার্কেট নিচে নামতে পারে!';
+      cls='bad'; sp='Bhai, ekhon entry bhalo na, bondho thako.';
+    } else {
+      msg='<b>⏰ ASOL ANALYSIS - '+new Date().toLocaleTimeString()+'</b><br>• Price: $'+lastPrice.toFixed(2)+'<br>• RSI: '+rsi.toFixed(1)+' (মাঝখানে, পরিষ্কার না)<br>• Price EMA: $'+ema.toFixed(2)+'<br>• Goto 10 candle: '+green+' Sobuj, '+red+' Lal<br><br><b>DECISION:</b><br>🟡 <b>EKHON OPEKKHA KORO!</b> Signal পরিষ্কার না, একটু খারাও!';
+      cls='wait'; sp='Bhai, ekhon opekkha koro.';
+    }
+    addMsg(msg, cls);
+    speak(sp);
+  }catch(e){
+    addMsg('ভাই, নেটে সমস্যা হইছে, আবার চেষ্টা করতেছি... Binance থাকি ক্যান্ডেল আনতে পারতেছি না!');
+  }
+}
 
 function toggleApp(){
   if(!running){
-    running=true; startSec=0; reportCount=0; prices=[];
-    document.getElementById('mainBtn').innerText='⏹️ APP BANDHO KORO';
+    running=true;
+    document.getElementById('mainBtn').innerText='⏹️ BANDHO KORO';
     document.getElementById('mainBtn').className='btn stop';
-    addMsg('▶️ <b>APP START HOISE!</b><br>ভাই, অখন আমি নিজে চার্ট দেখা শুরু করলাম! তুমি আর চার্ট দেখবা না! আমি দেখমু! 5 মিনিট পর পর আমি নিজে বিশ্লেষণ করিয়া তোমারে কইমু!');
-    speak('App start bhai, ami nije chart dekhbo, tumi dekhba na.');
-    timerIv=setInterval(()=>{startSec++;let m=String(Math.floor(startSec/60)).padStart(2,'0');let s=String(startSec%60).padStart(2,'0');document.getElementById('watchTime').innerText='App cholse: '+m+':'+s;},1000);
-    // DEMO TE 20 SEC POR POR - ASOL 5 MIN ER JONNO 300000 KORO
-    reportIv=setInterval(appAnalysis, 20000);
+    addMsg('▶️ <b>REAL ANALYSIS START!</b><br>ভাই, অখন আমি আসল ক্যান্ডেল দেখিয়া হিসাব করমু! Random না! তুমি দেখো, RSI / EMA / ক্যান্ডেল সব দেখাইমু!');
+    speak('Real analysis start bhai, random na.');
+    realAnalysis();
+    // ASOL 5 MIN = 300000, DEMO TE 20 SEC DILAM JATE TUMI TATARI DEKHO
+    timerIv=setInterval(realAnalysis, 20000);
   } else {
-    running=false; clearInterval(timerIv); clearInterval(reportIv);
-    document.getElementById('mainBtn').innerText='▶️ APP START করো - App Nije Chart Dekhbo';
+    running=false; clearInterval(timerIv);
+    document.getElementById('mainBtn').innerText='▶️ REAL ANALYSIS START করো';
     document.getElementById('mainBtn').className='btn start';
-    addMsg('⏹️ App bondho korla bhai!');
   }
-}
-
-function appAnalysis(){
-  reportCount++;
-  if(prices.length<5){addMsg('App ekhono data joma kortese... ektu kharaw bhai!');return;}
-  let first=prices[0], last=prices[prices.length-1];
-  let change=((last-first)/first*100);
-  let upCount=0, downCount=0;
-  for(let i=1;i<prices.length;i++){if(prices[i]>prices[i-1])upCount++;else downCount++;}
-  let msg='', cls='ai', sp='';
-  // APP NIJE DECISION NITASE - LOGIC
-  if(change>0.05 && upCount>downCount){
-    msg='<b>⏰ APP-ER REPORT '+(reportCount*5)+' MIN:</b><br>• App dekhse: Goto 5 min e price <b>UP</b> gese ('+change.toFixed(3)+'%)<br>• Sobuj candle beshi, upore jaitase<br><br><b>APP-ER DECISION:</b><br>✅ <b>EKHON ENTRY NILE VALO!</b> App nije analysis koira koitase - ekhon kinle valo hoibo! Choto entry naw, SL dio!';
-    cls='ai good'; sp='Bhai, ekhon entry nile bhalo, market upore uthase.';
-  } else if(change<-0.05 && downCount>upCount){
-    msg='<b>⏰ APP-ER REPORT '+(reportCount*5)+' MIN:</b><br>• App dekhse: Goto 5 min e price <b>DOWN</b> gese ('+change.toFixed(3)+'%)<br>• Lal candle beshi, niche namtase<br><br><b>APP-ER DECISION:</b><br>⛔ <b>EKHON ENTRY VALO NA, BONDHO THAKO!</b> App nije koitase - ekhon kinle loss hoibo! Pore arekbar chesta koro, ami dekhtasi!';
-    cls='ai bad'; sp='Bhai, ekhon entry bhalo na, bondho thako.';
-  } else {
-    msg='<b>⏰ APP-ER REPORT '+(reportCount*5)+' MIN:</b><br>• App dekhse: Goto 5 min e price ek jaygay atkai ase ('+change.toFixed(3)+'%)<br>• Market sideways, keu bujhtese na<br><br><b>APP-ER DECISION:</b><br>🟡 <b>EKHON OPEKKHA KORO!</b> App nije koitase - ekhon entry nio na, ektu kharaw, valo somoy aile ami koimu!';
-    cls='ai wait'; sp='Bhai, ekhon opekkha koro.';
-  }
-  addMsg(msg, cls);
-  speak(sp);
-  prices=[]; // Notun 5 min er jonno abar joma korbo
 }
 </script>
 </body>
